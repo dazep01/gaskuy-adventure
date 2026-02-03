@@ -1,0 +1,1054 @@
+[
+  {
+    "trip_id":"GAK-PRU-3D2N",
+    "nama_trip":"Trip Eksklusif Gunung Prau via Dieng",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Dapatkan pengalaman mendaki Gunung Prau yang menawan dengan jalur eksotis via Dieng, tempat di mana kabut pagi menyelimuti padang savana seperti permadani alam yang tak ternilai.",
+    "lokasi":{
+      "gunung":"Gunung Prau",
+      "ketinggian":"2.565 MDPL",
+      "wilayah":"Wonosobo, Jawa Tengah",
+      "jalur_pendakian":"Patakbanteng / Dieng"
+    },
+    "harga":700000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta",
+      "Jalur yang dilewati"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Homestay / Basecamp",
+      "Guide",
+      "Tenda Kapasitas 4",
+      "AIR TEAM",
+      "Makan Selama Pendakian",
+      "Porter Tenda & HT",
+      "Tenda Toilet (+20 orang)",
+      "Dokumentasi bersama",
+      "P3K Standar"
+    ],
+    "media":{
+      "gambar_utama":"https://dieng.co.id/wp-content/uploads/2017/07/paket-tour-gunung-prau.jpg",
+      "galeri":[
+        "https://cda.1001malam.com/uploads/tour/paketpendakiangunungprau_goldensunrise_6234.jpg",
+        "https://blue.kumparan.com/image/upload/fl_progressive,fl_lossy,c_fill,f_auto,q_auto:best,w_640/v1589129544/axopkp1mx2ffh9hklgae.jpg",
+        "https://diengexposure.com/wp-content/uploads/2023/02/gunung-prau.webp",
+        "https://media-cdn.tripadvisor.com/media/photo-s/10/8c/c9/c9/view-gunung-sindoro-dan.jpg"
+      ],
+      "video":"https://placehold.co/video?text=Cinematic+Prau"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Penjemputan di Meeting Point, perjalanan menuju Wonosobo."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Tiba di basecamp, pendakian ke puncak, dan camp untuk menikmati golden sunrise."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Turun dari puncak, wisata singkat di Dieng, dan perjalanan pulang."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-RNJ-OVL",
+    "nama_trip":"Ekspedisi Atap NTB - Gunung Rinjani",
+    "kategori":"Overland",
+    "deskripsi":"Nikmati ekspedisi menaklukkan atap Nusa Tenggara Barat, Gunung Rinjani, dengan pesona Danau Segara Anak dan tantangan pendakian yang memperkuat semangat petualang.",
+    "lokasi":{
+      "gunung":"Gunung Rinjani",
+      "ketinggian":"3.726 MDPL",
+      "wilayah":"Lombok, Nusa Tenggara Barat",
+      "jalur_pendakian":"Sembalun"
+    },
+    "harga":2350000,
+    "durasi":"5 Hari 4 Malam",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Homestay / Basecamp",
+      "Guide",
+      "Tenda Kapasitas 4",
+      "Makan Selama Pendakian",
+      "Porter Tenda & HT",
+      "Dokumentasi bersama",
+      "P3K Standar"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Rinjani+Summit",
+      "galeri":[
+        "https://placehold.co/600x400?text=Segara+Anak",
+        "https://placehold.co/600x400?text=Plawangan+Sembalun",
+        "https://placehold.co/600x400?text=Kawah+Rinjani",
+        "https://placehold.co/600x400?text=Puncak+3726"
+      ],
+      "video":"https://placehold.co/video?text=Cinematic+Rinjani"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Meeting point dan perjalanan menuju Lombok."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Registrasi Simaksi dan mulai trekking menuju Plawangan."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Summit attack dan turun ke Danau Segara Anak."
+      },
+      {
+        "hari":4,
+        "kegiatan":"Perjalanan menuju basecamp akhir."
+      },
+      {
+        "hari":5,
+        "kegiatan":"Wisata oleh-oleh dan perjalanan kembali ke meeting point."
+      }
+    ],
+    "marks":[
+      "Expert",
+      "Gunung",
+      "Camping",
+      "Trending"
+    ]
+  },
+  {
+    "trip_id":"GAK-PAP-ODT",
+    "nama_trip":"One Day Trip Hutan Mati Papandayan",
+    "kategori":"One Day Trip",
+    "deskripsi":"Jelajahi keunikan Hutan Mati Gunung Papandayan dalam perjalanan sehari penuh, menikmati kawah aktif dan keindahan alam yang kontras dan memukau.",
+    "lokasi":{
+      "gunung":"Gunung Papandayan",
+      "ketinggian":"2.665 MDPL",
+      "wilayah":"Garut, Jawa Barat",
+      "jalur_pendakian":"Cisurupan"
+    },
+    "harga":420000,
+    "durasi":"1 Hari",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Guide",
+      "Makan (1x)",
+      "Dokumentasi bersama",
+      "P3K Standar"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Papandayan+Hutan+Mati",
+      "galeri":[
+        "https://placehold.co/600x400?text=Kawah+Papandayan",
+        "https://placehold.co/600x400?text=Tegal+Alun",
+        "https://placehold.co/600x400?text=Hutan+Mati"
+      ],
+      "video":"https://placehold.co/video?text=OneDay+Papandayan"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat dini hari, trekking Kawah & Hutan Mati, sore kembali ke Jakarta."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Gunung",
+      "Hutan"
+    ]
+  },
+  {
+    "trip_id":"GAK-KRA-SPEC",
+    "nama_trip":"Spesial Trip Jelajah Anak Krakatau & Sebesi",
+    "kategori":"Spesial Trip",
+    "deskripsi":"Rasakan sensasi eksplorasi pulau vulkanik aktif Anak Krakatau dan nikmati keindahan bawah laut serta pulau-pulau eksotis di sekitarnya dalam petualangan laut yang tak terlupakan.",
+    "lokasi":{
+      "gunung":"Gunung Anak Krakatau",
+      "ketinggian":"155 MDPL",
+      "wilayah":"Selat Sunda, Lampung",
+      "jalur_pendakian":"Canti"
+    },
+    "harga":750000,
+    "durasi":"2 Hari 1 Malam",
+    "meeting_points":[
+      "Jakarta (Plaza Semanggi/St. Palmerah)",
+      "Tangerang",
+      "Merak"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Tiket Kapal Merak-Bakauheni",
+      "Simaksi Krakatau",
+      "Homestay di Pulau Sebesi",
+      "Guide Lokal",
+      "Makan Selama Trip",
+      "Sewa Kapal Snorkeling & Jelajah Pulau",
+      "Dokumentasi Under & Upper Water",
+      "P3K Standar"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Anak+Krakatau",
+      "galeri":[
+        "https://placehold.co/600x400?text=Pulau+Sebesi",
+        "https://placehold.co/600x400?text=Snorkeling",
+        "https://placehold.co/600x400?text=Sunrise+Krakatau",
+        "https://placehold.co/600x400?text=Pantai+Sebesi"
+      ],
+      "video":"https://placehold.co/video?text=Cinematic+Krakatau"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Perjalanan ke Merak, menyeberang ke Sebesi, snorkeling di Pulau Umang-Umang."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Trekking Anak Krakatau, kembali ke Sebesi, dan perjalanan pulang."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Pantai",
+      "Trending"
+    ]
+  },
+  {
+    "trip_id":"GAK-SIN-3D2N",
+    "nama_trip":"Eksplorasi Atap Jawa Tengah - Gunung Sindoro",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Temukan keagungan Gunung Sindoro, salah satu atap Jawa Tengah, dengan jalur Kledung yang menantang dan pemandangan alam spektakuler yang memanjakan mata.",
+    "lokasi":{
+      "gunung":"Gunung Sindoro",
+      "ketinggian":"3.153 MDPL",
+      "wilayah":"Temanggung, Jawa Tengah",
+      "jalur_pendakian":"Kledung"
+    },
+    "harga":700000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta",
+      "Jalur yang dilewati"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Homestay / Basecamp",
+      "Guide",
+      "Tenda Kapasitas 4",
+      "AIR TEAM",
+      "Makan Selama Pendakian",
+      "Porter Tenda & HT",
+      "Tenda Toilet (+20 orang)",
+      "Dokumentasi bersama",
+      "P3K Standar"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Gunung+Sindoro+Main",
+      "galeri":[
+        "https://placehold.co/600x400?text=Kawah+Sindoro",
+        "https://placehold.co/600x400?text=Sunrise+Kledung",
+        "https://placehold.co/600x400?text=Sabana+Sindoro",
+        "https://placehold.co/600x400?text=View+Sumbing"
+      ],
+      "video":"https://placehold.co/video?text=Cinematic+Sindoro"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Perjalanan menuju Kledung dari Meeting Point."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Start trekking, camp di Pos 3/4, menikmati pemandangan ganda Sindoro-Sumbing."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Summit attack, turun ke basecamp, dan perjalanan pulang."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-MER-3D2N",
+    "nama_trip":"Savana Terindah - Gunung Merbabu",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Rasakan keindahan luar biasa Savana Gunung Merbabu yang menyejukkan hati, dengan pemandangan luas dan udara segar yang memperkuat rasa syukur terhadap alam.",
+    "lokasi":{
+      "gunung":"Gunung Merbabu",
+      "ketinggian":"3.142 MDPL",
+      "wilayah":"Magelang/Boyolali, Jawa Tengah",
+      "jalur_pendakian":"Selo / Suwanting"
+    },
+    "harga":850000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi & Tiket Masuk",
+      "Homestay / Basecamp",
+      "Guide Professional",
+      "Tenda Kapasitas 4",
+      "Makan Selama Pendakian",
+      "Porter Tenda & Kelompok",
+      "Dokumentasi"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Merbabu+Savana",
+      "galeri":[
+        "https://placehold.co/600x400?text=Puncak+Kenteng+Songo",
+        "https://placehold.co/600x400?text=Sabana+1",
+        "https://placehold.co/600x400?text=Sabana+2",
+        "https://placehold.co/600x400?text=View+Merapi",
+        "https://placehold.co/600x400?text=Pos+3+Selo"
+      ],
+      "video":"https://placehold.co/video?text=Cinematic+Merbabu"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Keberangkatan menuju Selo, Boyolali."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Trekking melewati Sabana 1 & 2, camp di area yang ditentukan."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Summit Triangulasi/Kenteng Songo, turun, dan kembali ke kota asal."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-KER-OVL",
+    "nama_trip":"Atap Sumatera - Gunung Kerinci",
+    "kategori":"Overland",
+    "deskripsi":"Jelajahi puncak tertinggi Pulau Sumatera, Gunung Kerinci, dengan lanskap yang menakjubkan dan keanekaragaman ekosistem yang membuat perjalanan ini menjadi pengalaman hidup yang luar biasa.",
+    "lokasi":{
+      "gunung":"Gunung Kerinci",
+      "ketinggian":"3.805 MDPL",
+      "wilayah":"Jambi/Sumatera Barat",
+      "jalur_pendakian":"Kersik Tuo"
+    },
+    "harga":2199000,
+    "durasi":"5 Hari 4 Malam",
+    "meeting_points":[
+      "Jakarta / Bandara Minangkabau"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi Kerinci Seblat",
+      "Homestay di Kersik Tuo",
+      "Guide & Porter",
+      "Makan Selama Trip",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Puncak+Kerinci",
+      "galeri":[
+        "https://placehold.co/600x400?text=Kebun+Teh+Kayu+Aro",
+        "https://placehold.co/600x400?text=Shelter+3",
+        "https://placehold.co/600x400?text=Danau+Gunung+Tujuh",
+        "https://placehold.co/600x400?text=Kawah+Kerinci"
+      ],
+      "video":"https://placehold.co/video?text=Expedition+Kerinci"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Meeting point, perjalanan menuju Jambi/Padang."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Perjalanan darat menuju Kersik Tuo, briefing."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Trekking menuju Shelter 2/3."
+      },
+      {
+        "hari":4,
+        "kegiatan":"Summit attack 3805 MDPL, turun ke basecamp."
+      },
+      {
+        "hari":5,
+        "kegiatan":"Wisata Danau Gunung Tujuh (opsional) dan pulang."
+      }
+    ],
+    "marks":[
+      "Expert",
+      "Gunung",
+      "Camping",
+      "Hutan"
+    ]
+  },
+  {
+    "trip_id":"GAK-IBU-ODT",
+    "nama_trip":"One Day Trip Sunan Ibu - Ciwidey",
+    "kategori":"One Day Trip",
+    "deskripsi":"Saksikan kecantikan alam Ciwidey dengan mengejar sunrise di Sunan Ibu, dilengkapi dengan wisata alam kawah putih yang eksotis dan udara sejuk pegunungan.",
+    "lokasi":{
+      "gunung":"Sunan Ibu (Kawah Putih)",
+      "ketinggian":"2.430 MDPL",
+      "wilayah":"Bandung, Jawa Barat",
+      "jalur_pendakian":"Cipanganten"
+    },
+    "harga":450000,
+    "durasi":"1 Hari",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Tiket Masuk Wisata",
+      "Guide Lokal",
+      "Makan (1x)",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Sunan+Ibu+Sunrise",
+      "galeri":[
+        "https://placehold.co/600x400?text=View+Kawah+Putih",
+        "https://placehold.co/600x400?text=Sunrise+Point",
+        "https://placehold.co/600x400?text=Kebun+Teh+Rancabali"
+      ],
+      "video":"https://placehold.co/video?text=OneDay+SunanIbu"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat malam hari, mengejar sunrise di Sunan Ibu, wisata Kawah Putih, sore pulang."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Gunung",
+      "Hutan"
+    ]
+  },
+  {
+    "trip_id":"GAK-PAR-SPEC",
+    "nama_trip":"Island Hopping Pulau Pari 2D1N",
+    "kategori":"Spesial Trip",
+    "deskripsi":"Nikmati keindahan Kepulauan Seribu lewat perjalanan seru island hopping di Pulau Pari, lengkap dengan snorkeling, sunset, dan malam yang penuh cerita.",
+    "lokasi":{
+      "gunung":"N/A (Pantai)",
+      "ketinggian":"0 MDPL",
+      "wilayah":"Kepulauan Seribu, Jakarta",
+      "jalur_pendakian":"Dermaga Muara Angke / Kaliadem"
+    },
+    "harga":450000,
+    "durasi":"2 Hari 1 Malam",
+    "meeting_points":[
+      "Dermaga Muara Angke",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Tiket Kapal PP",
+      "Homestay AC (Sharing)",
+      "Makan 3x + BBQ",
+      "Sewa Sepeda",
+      "Alat Snorkeling",
+      "Kapal Snorkeling",
+      "Dokumentasi Under Water",
+      "Tour Guide"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Pulau+Pari+Beach",
+      "galeri":[
+        "https://placehold.co/600x400?text=Pantai+Pasir+Perawan",
+        "https://placehold.co/600x400?text=Snorkeling+Time",
+        "https://placehold.co/600x400?text=Sunset+Bintang+Rama",
+        "https://placehold.co/600x400?text=BBQ+Night"
+      ],
+      "video":"https://placehold.co/video?text=Vacation+Pari"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Menyeberang ke Pulau Pari, sepeda santai, snorkeling, dan BBQ malam."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Sunrise di Pantai Pasir Perawan, kanoing, dan kembali ke Jakarta."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Pantai",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-CEK-ODT",
+    "nama_trip":"One Day Trip Gunung Ciremai",
+    "kategori":"One Day Trip",
+    "deskripsi":"Perjalanan singkat menaklukkan Gunung Ciremai, gunung tertinggi di Jawa Barat dengan pemandangan hutan tropis yang memesona.",
+    "lokasi":{
+      "gunung":"Gunung Ciremai",
+      "ketinggian":"3.078 MDPL",
+      "wilayah":"Majalengka, Jawa Barat",
+      "jalur_pendakian":"Palutungan"
+    },
+    "harga":550000,
+    "durasi":"1 Hari",
+    "meeting_points":[
+      "Jakarta",
+      "Bogor",
+      "Depok"
+    ],
+    "inclusions":[
+      "Transport AC",
+      "Simaksi",
+      "Guide",
+      "Makan",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Ciremai+Summit",
+      "galeri":[
+        "https://placehold.co/600x400?text=Hutan+Ciremai",
+        "https://placehold.co/600x400?text=Sunrise+Ciremai",
+        "https://placehold.co/600x400?text=Kawah+Ciremai"
+      ],
+      "video":"https://placehold.co/video?text=OneDay+Ciremai"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat pagi menuju basecamp, trekking hingga summit dan kembali sore hari."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Gunung",
+      "Hutan"
+    ]
+  },
+  {
+    "trip_id":"GAK-GED-3D2N",
+    "nama_trip":"Trip Gunung Gede Pangrango",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Petualangan 3 hari mendaki Gunung Gede Pangrango dengan jalur Alun-Alun Sumberjaya, menikmati keindahan flora dan fauna endemik Jawa.",
+    "lokasi":{
+      "gunung":"Gunung Gede Pangrango",
+      "ketinggian":"2.958 MDPL",
+      "wilayah":"Bogor, Jawa Barat",
+      "jalur_pendakian":"Cipanas"
+    },
+    "harga":950000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Jakarta",
+      "Bogor",
+      "Depok"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Guide",
+      "Tenda",
+      "Makan",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Gede+Pangrango",
+      "galeri":[
+        "https://placehold.co/600x400?text=Alun+Alun+Sumberjaya",
+        "https://placehold.co/600x400?text=Puncak+Gede",
+        "https://placehold.co/600x400?text=Flora+Fauna",
+        "https://placehold.co/600x400?text=Camping+Gede"
+      ],
+      "video":"https://placehold.co/video?text=Expedition+Gede"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat menuju Cipanas, registrasi dan trekking awal."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Trekking menuju puncak Gede, camping."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Turun menuju basecamp dan kembali ke Jakarta."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Hutan",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-BAY-2D1N",
+    "nama_trip":"Trip Camping di Teluk Banten",
+    "kategori":"Spesial Trip",
+    "deskripsi":"Nikmati malam yang tenang di Teluk Banten dengan aktivitas camping, api unggun, dan bintang-bintang yang menyapamu dari langit biru gelap.",
+    "lokasi":{
+      "gunung":"N/A (Pantai)",
+      "ketinggian":"0 MDPL",
+      "wilayah":"Teluk Banten",
+      "jalur_pendakian":"Pantai"
+    },
+    "harga":350000,
+    "durasi":"2 Hari 1 Malam",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Perlengkapan camping",
+      "Makan 3x",
+      "Api unggun",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Teluk+Banten+Camping",
+      "galeri":[
+        "https://placehold.co/600x400?text=Camping+Teluk+Banten",
+        "https://placehold.co/600x400?text=Sunset+Teluk+Banten",
+        "https://placehold.co/600x400?text=Api+Unggun",
+        "https://placehold.co/600x400?text=Morning+View"
+      ],
+      "video":"https://placehold.co/video?text=Camping+Banten"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat siang, setup camping dan api unggun malam."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Sunrise di pantai, bersih-bersih dan kembali ke kota."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Camping",
+      "Pantai",
+      "Murah"
+    ]
+  },
+  {
+    "trip_id":"GAK-CIK-ODT",
+    "nama_trip":"One Day Trip Cikolelet Beach Camping",
+    "kategori":"One Day Trip",
+    "deskripsi":"Nikmati sensasi camping di pinggir pantai Cikolelet yang eksotis dengan ombak yang menenangkan dan pemandangan yang memukau.",
+    "lokasi":{
+      "gunung":"N/A (Pantai)",
+      "ketinggian":"0 MDPL",
+      "wilayah":"Pandeglang, Banten",
+      "jalur_pendakian":"Pantai"
+    },
+    "harga":400000,
+    "durasi":"1 Hari",
+    "meeting_points":[
+      "Serang",
+      "Tangerang",
+      "Jakarta"
+    ],
+    "inclusions":[
+      "Transport AC",
+      "Perlengkapan camping",
+      "Makan",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Cikolelet+Beach",
+      "galeri":[
+        "https://placehold.co/600x400?text=Beach+Camping",
+        "https://placehold.co/600x400?text=Sunset+Cikolelet",
+        "https://placehold.co/600x400?text=Morning+Swim"
+      ],
+      "video":"https://placehold.co/video?text=Beach+Camping"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat pagi, camping, dan kembali sore hari."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Camping",
+      "Pantai",
+      "Murah"
+    ]
+  },
+  {
+    "trip_id":"GAK-JAY-3D2N",
+    "nama_trip":"Trip Jelajah Hutan Jayagiri",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Eksplorasi hutan pinus Jayagiri dengan pemandangan kota Bandung dari ketinggian dan udara segar yang menyegarkan jiwa.",
+    "lokasi":{
+      "gunung":"Hutan Jayagiri",
+      "ketinggian":"1.400 MDPL",
+      "wilayah":"Lembang, Bandung",
+      "jalur_pendakian":"Hutan Pinus"
+    },
+    "harga":650000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Bandung",
+      "Jakarta",
+      "Bogor"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Homestay",
+      "Guide",
+      "Makan",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Jayagiri+Forest",
+      "galeri":[
+        "https://placehold.co/600x400?text=Hutan+Pinus",
+        "https://placehold.co/600x400?text=View+Bandung",
+        "https://placehold.co/600x400?text=Morning+Fog",
+        "https://placehold.co/600x400?text=Camping+Hutan"
+      ],
+      "video":"https://placehold.co/video?text=Forest+Exploration"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Perjalanan menuju Jayagiri, jelajah hutan dan camping."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Tracking dan spot foto menarik."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Wisata alam dan kembali ke kota."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Hutan",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-BUK-2D1N",
+    "nama_trip":"Trip Bukit Bintang Malam Hari",
+    "kategori":"Spesial Trip",
+    "deskripsi":"Pendakian malam menuju Bukit Bintang untuk menikmati pemandangan kota Jakarta yang gemerlap dari ketinggian.",
+    "lokasi":{
+      "gunung":"Bukit Bintang",
+      "ketinggian":"800 MDPL",
+      "wilayah":"Puncak, Bogor",
+      "jalur_pendakian":"Setu Patok"
+    },
+    "harga":500000,
+    "durasi":"2 Hari 1 Malam",
+    "meeting_points":[
+      "Jakarta",
+      "Depok",
+      "Bogor"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Guide",
+      "Makan",
+      "Perlengkapan malam",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Bukit+Bintang+Night",
+      "galeri":[
+        "https://placehold.co/600x400?text=Night+Hiking",
+        "https://placehold.co/600x400?text=City+Lights",
+        "https://placehold.co/600x400?text=Morning+Fog",
+        "https://placehold.co/600x400?text=Summit+View"
+      ],
+      "video":"https://placehold.co/video?text=Night+Hiking"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat malam, night hiking menuju puncak."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Breakfast di puncak dan kembali ke kota."
+      }
+    ],
+    "marks":[
+      "Menengah",
+      "Gunung",
+      "Camping"
+    ]
+  },
+  {
+    "trip_id":"GAK-PEN-5D4N",
+    "nama_trip":"Trip Ekstrem Gunung Merapi",
+    "kategori":"Overland",
+    "deskripsi":"Ekspedisi menantang ke puncak Gunung Merapi, gunung aktif tertinggi di Jawa dengan tantangan fisik dan mental yang luar biasa.",
+    "lokasi":{
+      "gunung":"Gunung Merapi",
+      "ketinggian":"2.968 MDPL",
+      "wilayah":"Yogyakarta/Jawa Tengah",
+      "jalur_pendakian":"Selo"
+    },
+    "harga":1800000,
+    "durasi":"5 Hari 4 Malam",
+    "meeting_points":[
+      "Jakarta",
+      "Yogyakarta",
+      "Solo"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Simaksi",
+      "Guide Profesional",
+      "Tenda & Perlengkapan",
+      "Makan",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Merapi+Summit",
+      "galeri":[
+        "https://placehold.co/600x400?text=Lava+Field",
+        "https://placehold.co/600x400?text=Summit+Merapi",
+        "https://placehold.co/600x400?text=View+Merbabu",
+        "https://placehold.co/600x400?text=Camping+Merapi"
+      ],
+      "video":"https://placehold.co/video?text=Extreme+Merapi"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Meeting point dan perjalanan ke basecamp."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Trekking awal menuju pos-pos pendakian."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Trekking lanjutan dan istirahat."
+      },
+      {
+        "hari":4,
+        "kegiatan":"Summit attack dan turun ke basecamp."
+      },
+      {
+        "hari":5,
+        "kegiatan":"Wisata lava tour dan kembali ke kota."
+      }
+    ],
+    "marks":[
+      "Expert",
+      "Gunung",
+      "Camping",
+      "Trending"
+    ]
+  },
+  {
+    "trip_id":"GAK-TAL-2D1N",
+    "nama_trip":"Trip Air Terjun Talaga Biru",
+    "kategori":"Spesial Trip",
+    "deskripsi":"Perjalanan menyegarkan menuju air terjun tersembunyi Talaga Biru dengan pemandangan alami yang masih asri dan air yang jernih.",
+    "lokasi":{
+      "gunung":"N/A (Air Terjun)",
+      "ketinggian":"400 MDPL",
+      "wilayah":"Bogor, Jawa Barat",
+      "jalur_pendakian":"Hutan"
+    },
+    "harga":300000,
+    "durasi":"2 Hari 1 Malam",
+    "meeting_points":[
+      "Jakarta",
+      "Depok",
+      "Bogor"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Guide",
+      "Makan",
+      "Perlengkapan camping",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Talaga+Biru",
+      "galeri":[
+        "https://placehold.co/600x400?text=Air+Terjun",
+        "https://placehold.co/600x400?text=Swimming+Hole",
+        "https://placehold.co/600x400?text=Forest+Path",
+        "https://placehold.co/600x400?text=Camping+Area"
+      ],
+      "video":"https://placehold.co/video?text=Waterfall+Adventure"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat pagi menuju lokasi, tracking dan camping."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Wisata air terjun dan kembali ke kota."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Hutan",
+      "Camping",
+      "Murah"
+    ]
+  },
+  {
+    "trip_id":"GAK-KEL-ODT",
+    "nama_trip":"One Day Trip Kelapa Gading Seafood Festival",
+    "kategori":"One Day Trip",
+    "deskripsi":"Trip kuliner menyenangkan ke Kelapa Gading untuk menikmati festival seafood terbaik dengan suasana pantai buatan yang menyegarkan.",
+    "lokasi":{
+      "gunung":"N/A (Kota)",
+      "ketinggian":"0 MDPL",
+      "wilayah":"Jakarta Utara",
+      "jalur_pendakian":"N/A"
+    },
+    "harga":250000,
+    "durasi":"1 Hari",
+    "meeting_points":[
+      "Jakarta",
+      "Bekasi",
+      "Depok"
+    ],
+    "inclusions":[
+      "Transport AC",
+      "Makan seafood",
+      "Dokumentasi",
+      "Souvenir"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Seafood+Festival",
+      "galeri":[
+        "https://placehold.co/600x400?text=Seafood+Delights",
+        "https://placehold.co/600x400?text=Festival+Atmosphere",
+        "https://placehold.co/600x400?text=Beach+Vibes",
+        "https://placehold.co/600x400?text=Group+Fun"
+      ],
+      "video":"https://placehold.co/video?text=Food+Festival"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat pagi, wisata kuliner dan kembali sore hari."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Promo",
+      "Murah"
+    ]
+  },
+  {
+    "trip_id":"GAK-PAK-3D2N",
+    "nama_trip":"Trip Pakuwon City Adventure",
+    "kategori":"Destinasi 3D2N",
+    "deskripsi":"Liburan seru di Pakuwon City Surabaya dengan berbagai wahana hiburan dan destinasi belanja terlengkap.",
+    "lokasi":{
+      "gunung":"N/A (Kota)",
+      "ketinggian":"0 MDPL",
+      "wilayah":"Surabaya",
+      "jalur_pendakian":"N/A"
+    },
+    "harga":1200000,
+    "durasi":"3 Hari 2 Malam",
+    "meeting_points":[
+      "Jakarta",
+      "Bandung",
+      "Surabaya"
+    ],
+    "inclusions":[
+      "Transport AC - PP",
+      "Hotel",
+      "Makan",
+      "Tiket masuk wahana",
+      "Dokumentasi",
+      "P3K"
+    ],
+    "media":{
+      "gambar_utama":"https://placehold.co/800x600?text=Pakuwon+Adventure",
+      "galeri":[
+        "https://placehold.co/600x400?text=City+Attractions",
+        "https://placehold.co/600x400?text=Shopping+Mall",
+        "https://placehold.co/600x400?text=Family+Fun",
+        "https://placehold.co/600x400?text=Night+Life"
+      ],
+      "video":"https://placehold.co/video?text=City+Adventure"
+    },
+    "itinerary":[
+      {
+        "hari":1,
+        "kegiatan":"Berangkat menuju Surabaya dan check-in hotel."
+      },
+      {
+        "hari":2,
+        "kegiatan":"Wisata Pakuwon City dan hiburan."
+      },
+      {
+        "hari":3,
+        "kegiatan":"Belanja dan kembali ke kota asal."
+      }
+    ],
+    "marks":[
+      "Pemula",
+      "Promo",
+      "Trending"
+    ]
+  }
+]
