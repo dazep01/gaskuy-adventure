@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="in">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GasKuy Adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" as="style" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css"></noscript>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="/js/jquery-metadata-min.js"></script>
+  <script src="/js/es6-promise-checker.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  
+<div class="app-navbar">
+  <div class="nav-item active" data-target="home">
+    <i class="hgi hgi-stroke hgi-home-01"></i>
+    <span class="label">Beranda</span>
+  </div>
+  <div class="nav-item" data-target="explore">
+    <i class="hgi hgi-stroke hgi-compass"></i>
+    <span class="label">Jelajah</span>
+  </div>
+  <div class="nav-item" data-target="about">
+    <i class="hgi hgi-stroke hgi-information-circle"></i>
+    <span class="label">About</span>
+  </div>
+  <div class="nav-item" data-target="account">
+    <i class="hgi hgi-stroke hgi-user-id-verification"></i>
+    <span class="label">Akun</span>
+  </div>
+</div>
+
+<div class="wadah">
+  <div class="app-header">
+    <div class="logo"><img src="/data/logo.svg" width="25" height="25" fil="#5a4f41" alt="Logo">GasKuy</div>
+    <div class="actions">
+      <button><i class="hgi hgi-stroke hgi-search-02"></i></button>
+      <button><i class="hgi hgi-stroke hgi-notification-01"></i></button>
+    </div>
+  </div>
+  
+<div class="fab-container">
+  <div class="fab-menu" id="fabMenu">
+    <button class="fab-item" title="WhatsApp CS">
+      <i class="hgi hgi-stroke hgi-whatsapp"></i>
+    </button>
+    <button class="fab-item" title="Favorit">
+      <i class="hgi hgi-stroke hgi-favourite-circle"></i>
+    </button>
+    <button class="fab-item" title="Jadwal Trip">
+      <i class="hgi hgi-stroke hgi-calendar-03"></i>
+    </button>
+  </div>
+  <button class="app-fab" id="mainFab">
+    <i class="hgi hgi-stroke hgi-menu-circle" id="fabIcon"></i>
+  </button>
+</div>
+
+  <div class="app">
+<div class="content-wrapper" id="main-container">
+  <div id="home-content">
+    <div class="hero-section">
+      <h1 class="hero-title" style="font-size: 1.8rem;">Halo, Petualang! <i class="hgi hgi-stroke hgi-waving-hand-01"></i></h1>
+      <p class="hero-subtitle">Siap menaklukkan puncak baru hari ini?</p>
+      <div class="nav-item" data-target="explore" style="display: flex; flex-direction: row; width: max-content; background: var(--earth-charcoal); color: var(--earth-warm-white); padding: 10px 20px; border-radius: 30px; margin: 5px auto;">
+        <i class="hgi hgi-stroke hgi-rocket"></i>
+        <span class="label" style="padding-left: 5px;"><b> Mulai Menjelajah</b></span>
+      </div>
+    </div>
+    
+  <div class="ad-container">
+    <iframe src="iklan.html" class="ad-iframe" scrolling="no"></iframe>
+  </div>
+
+    <div class="category-scroll">
+      <div class="cat-item" data-category="Promo">
+        <div class="cat-icon"><i class="hgi hgi-stroke hgi-flash"></i></div>
+        <span>Promo</span>
+      </div>
+      <div class="cat-item" data-category="Sewa">
+        <div class="cat-icon"><i class="hgi hgi-stroke hgi-backpack-03"></i></div>
+        <span>Sewa</span>
+      </div>
+      <div class="cat-item" data-category="Gunung">
+        <div class="cat-icon"><i class="hgi hgi-stroke hgi-mountain"></i></div>
+        <span>Gunung</span>
+      </div>
+      <div class="cat-item" data-category="Camping">
+        <div class="cat-icon"><svg width="15" height="15" viewBox="0 -0.199 2.793 2.793" xmlns="http://www.w3.org/2000/svg"><path d="M2.743 2.296h-.097l.062-.252a.05.05 0 0 0-.097-.024l-.019.076a2.44 2.44 0 0 1-.782-.897l-.001-.002-.351-.731.071-.146a.05.05 0 1 0-.09-.043l-.036.075-.155-.323a.05.05 0 0 0-.09.043l.19.395-.369.761a2.4 2.4 0 0 1-.515.666 2 2 0 0 1-.214.175l-.039.027-.019-.076a.05.05 0 1 0-.097.024l.062.252H.05a.05.05 0 0 0 0 .1h2.693a.05.05 0 0 0 0-.1m-2.483 0-.024-.097a2.5 2.5 0 0 0 .47-.406l-.243.503Zm.953 0a2.3 2.3 0 0 0 .172-.458 2.3 2.3 0 0 0 .172.458Zm.456 0-.025-.05c-.068-.137-.205-.454-.209-.762v-.085a.05.05 0 0 0-.05-.05.05.05 0 0 0-.05.05s0 0 0 .084v.001a1.7 1.7 0 0 1-.125.571 2 2 0 0 1-.084.191l-.025.05H.573l.495-1.025.014-.027.003-.007.316-.655.826 1.715Zm.873 0h-.205l-.244-.508a2.5 2.5 0 0 0 .473.411ZM1.543.174A.05.05 0 0 0 1.61.151l.038-.079a.05.05 0 1 0-.09-.043l-.039.079a.05.05 0 0 0 .023.067" fill="#8d7a66" stroke="#8d7a66" stroke-width=".05" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <span>Camping</span>
+      </div>
+      <div class="cat-item" data-category="Hutan">
+        <div class="cat-icon"><i class="hgi hgi-stroke hgi-tree-02"></i></div>
+        <span>Hutan</span>
+      </div>
+      <div class="cat-item" data-category="Pantai">
+        <div class="cat-icon"><i class="hgi hgi-stroke hgi-beach"></i></div>
+        <span>Pantai</span>
+      </div>
+    </div>
+
+  <h3 class="section-title">Terbaru</h3>
+  <div class="horizontal-scroll" id="grid-terbaru"></div>
+  
+  <h3 class="section-title">Paling Dicari</h3>
+  <div class="horizontal-scroll" id="grid-trending"></div>
+  
+  <h3 class="section-title">Paling Murah</h3>
+  <div class="horizontal-scroll" id="grid-murah"></div>
+  
+  <h3 class="section-title">Spesial Promo</h3>
+  <div class="horizontal-scroll" id="grid-promo"></div>
+    </div>
+  
+  <div id="explore-content" style="display: none; margin-top:0;">
+    <div class="hero-section">
+      <h1 class="hero-title" style="font-size: 1.8rem;">Eksplorasi Trip <i class="hgi hgi-stroke hgi-compass"></i></h1>
+      <p class="hero-subtitle">Temukan petualangan yang cocok untukmu!</p>
+    </div>
+    <div class="search-bar" style="margin-top: 20px;">
+      <i class="hgi hgi-stroke hgi-search-02 search-icon"></i>
+      <input type="text" class="search-input" placeholder="Cari gunung, lokasi, atau level...">
+    </div>
+    
+    <div class="filter-tags">
+      <span class="tag active" data-level="Semua">Semua</span>
+      <span class="tag" data-level="Pemula">Pemula</span>
+      <span class="tag" data-level="Menengah">Menengah</span>
+      <span class="tag" data-level="Expert">Expert</span>
+    </div>
+
+    <div class="trip-grid">
+    <!-- Diisi Js -->
+      </div>
+      </div>
+
+<div id="about-content" style="display: none; margin-top:0;">
+  <div class="about-container">
+    <div class="hero-section">
+      <h1 class="hero-title" style="font-size: 1.8rem;">Tentang Kami <i class="hgi hgi-stroke hgi-mountain"></i></h1>
+      <p class="hero-subtitle"><b>GasKuy Adventure | Escape to Nature</b><br> Jelajah Keindahan Alam Indonesia with Trip GasKuy Adventure</p>
+    </div>
+<div style="display: flex; justify-content: center; flex-direction: center;">
+  <img src="/data/logo.png" width="250" height="250" alt="logopng" style="border-radius: 50%; margin: 60px auto; margin-top: -30px; box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);">
+</div>
+    <section class="about-section card-fade">
+      <h3 class="section-title">Siapa Kami?</h3>
+      <p class="section-text" style="text-align: justify;">
+        <strong>GasKuy Adventure</strong> adalah penyedia layanan jasa Open Trip dan Private Trip pendakian gunung (muncak) yang berbasis di Indonesia.<br><br>Lahir dari kecintaan mendalam terhadap jalur pendakian dan pesona puncak-puncak nusantara, kami hadir untuk menjadi jembatan bagi siapa saja—baik pendaki pemula maupun berpengalaman—untuk menikmati keindahan alam Indonesia dengan cara yang aman, nyaman, dan berkesan.<br><br>Kami percaya bahwa gunung bukan sekadar tentang mencapai puncak, tetapi tentang perjalanan, persaudaraan di jalur pendakian, dan bagaimana kita menghargai alam yang telah memberikan ketenangan.
+      </p>
+    </section>
+
+    <div class="vision-mission-grid">
+      <section class="about-card highlight">
+        <h3 class="card-title"><i class="hgi hgi-stroke hgi-view"></i> Visi Kami</h3>
+        <p style="text-align: justify;">Menjadi operator pendakian nomor satu di Indonesia yang mengedepankan standar keamanan tinggi (safety procedure) tanpa menghilangkan keseruan eksplorasi terhadap alam bebas di negeri ini.</p>
+      </section>
+
+      <section class="about-card">
+        <h3 class="card-title"><i class="hgi hgi-stroke hgi-target-02"></i> Misi Kami</h3>
+        <ul class="misi-list">
+          <li><strong>Keamanan Utama:</strong> <br><span style="text-align: justify;">Memastikan setiap pendakian dipandu oleh guide yang berpengalaman.</span></li>
+          <li><strong>Kenyamanan Maksimal:</strong> <br><span style="text-align: justify;">Menyediakan fasilitas perlengkapan dan logistik berkualitas.</span></li>
+          <li><strong>Edukasi Lingkungan:</strong> <br><span style="text-align: justify;">Mempraktikkan <em>Leave No Trace</em> demi kelestarian gunung.</span></li>
+          <li><strong>Membangun Komunitas:</strong> <br><span style="text-align: justify;">Wadah bertemu keluarga baru sesama pecinta alam.</span></li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="why-us">
+      <h3 class="section-title">Mengapa Memilih GasKuy Adventure?</h3>
+      <div class="benefits-grid">
+        <div class="benefit-item">
+          <i class="hgi hgi-stroke hgi-package"></i>
+          <h4>Pengalaman "All-In"</h4>
+          <p>Mulai dari simaksi, tenda, alat masak, hingga nutrisi, biarkan kami yang mengurusnya.</p>
+        </div>
+        <div class="benefit-item">
+          <i class="hgi hgi-stroke hgi-user-group"></i>
+          <h4>Pemandu Profesional</h4>
+          <p>Tim berpengalaman yang siap menjadi teman cerita dan pendukung teknis Anda.</p>
+        </div>
+        <div class="benefit-item">
+          <i class="hgi hgi-stroke hgi-droplet"></i>
+          <h4>Logistik Lezat</h4>
+          <p>Penyajian makanan bergizi dan menggugah selera di ketinggian ribuan meter.</p>
+        </div>
+        <div class="benefit-item">
+          <i class="hgi hgi-stroke hgi-camera-01"></i>
+          <h4>Dokumentasi Ciamik</h4>
+          <p>Kami bantu tangkap foto dan video terbaik di spot-spot ikonik untuk kenangan Anda.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="philosophy-section" style="margin-top: 30px; align-items: center; text-align: center;">
+      <div class="about-card philosophy" style="align-items: center; text-align: center;">
+        <h3 class="card-title" style="justify-content: center;">Filosofi "GasKuy"<br>⊷</h3>
+        <p>Nama "GasKuy" adalah semangat kami untuk mengajak Anda berhenti sejenak dari hiruk-pikuk aktivitas dan rutinitas perkotaan.<br><br>Saatnya <strong>"Gas"</strong> (berangkat) dan <strong>"Kuy"</strong> (memulai)!</p>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <h3>Mari Menjelajah Bersama!</h3>
+      <p>Sudah siap menapaki awan dan melihat matahari terbit dari puncak tertinggi? Jangan biarkan rencana hanya menjadi wacana.</p>
+      <button class="book-btn" style="margin-top: 15px; width: 100%; max-width: 300px;">Hubungi Kami Sekarang</button>
+      <p class="footer-note">GasKuy Adventure – Melangkah Lebih Jauh, Mengenal Alam Lebih Dekat.</p>
+    </section>
+  </div>
+</div>
+
+  <div id="account-content" style="display: none; margin-top:0;">
+    <div class="profile-header">
+      <div class="profile-avatar">
+        <i class="hgi hgi-stroke hgi-user-circle"></i>
+      </div>
+      <h2 class="profile-name">Ade Sobara</h2>
+      <p class="profile-status">Orang Terganteng Se-Pakuhaji</p>
+    </div>
+
+    <div class="account-menu">
+      <div class="menu-item">
+        <i class="hgi hgi-stroke hgi-file-attachment-03"></i>
+        <span>Riwayat Transaksi</span>
+        <i class="hgi hgi-stroke hgi-arrow-right-01 ms-auto"></i>
+      </div>
+      <div class="menu-item">
+        <i class="hgi hgi-stroke hgi-favourite"></i>
+        <span>Wishlist Trip</span>
+        <i class="hgi hgi-stroke hgi-arrow-right-01 ms-auto"></i>
+      </div>
+      <div class="menu-item">
+        <i class="hgi hgi-stroke hgi-settings-02"></i>
+        <span>Pengaturan Akun</span>
+        <i class="hgi hgi-stroke hgi-arrow-right-01 ms-auto"></i>
+      </div>
+      <button onclick="logout()" class="menu-item logout" style="color: #e74c3c;">
+        <i class="hgi hgi-stroke hgi-logout-03"></i>
+        <span>Keluar</span>
+      </button>
+    </div>
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal-sheet" id="modalSheet">
+  <div class="modal-handle"></div>
+  <div class="modal-header">
+    <h2 id="modalTitle" style="font-size: 1.2rem; color: var(--earth-soil);">Kategori</h2>
+    <button onclick="closeModal()" style="background:none; border:none; font-size: 1.5rem; cursor:pointer;">&times;</button>
+  </div>
+  <div class="modal-body trip-grid" id="modalBody">
+    </div>
+</div>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

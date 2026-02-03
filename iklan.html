@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Trip Advertisement Carousel</title>
+
+<style>
+:root {
+  --bg: #fdfaf7;
+  --card-overlay: rgba(0, 0, 0, 0.45); /* Agar teks tetap terbaca di atas gambar */
+  --primary: #8d7a66;
+  --text-light: #ffffff;
+  --muted: #f0f0f0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif;
+}
+
+.carousel {
+  width: 100%;
+  margin: 40px auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.track {
+  display: flex;
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+.slide {
+  min-width: 100%;
+  padding: 24px;
+}
+
+.card {
+  /* Layout Dasar */
+  height: 200px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.15);
+  
+  /* Background Gambar */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Teks di bawah */
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Overlay Gelap agar teks terlihat jelas */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  z-index: -1;
+}
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  color: var(--text-light);
+}
+
+p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 12px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  width: fit-content;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d1d1d6;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: var(--primary);
+}
+</style>
+</head>
+
+<body>
+
+<div class="carousel">
+  <div class="track" id="carouselTrack"></div>
+  <div class="dots" id="dotsWrap"></div>
+</div>
+
+<script>
+// 1. DATA JSON
+const tripData = [
+  {
+    title: "Eksplorasi Bali",
+    desc: "Temukan keindahan pantai tersembunyi dan budaya lokal yang kaya.",
+    image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
+    link: "#",
+    btnText: "Cek Jadwal"
+  },
+  {
+    title: "Pegunungan Bromo",
+    desc: "Saksikan matahari terbit yang magis di atas lautan pasir.",
+    image: "https://klik24.news/wp-content/uploads/2023/08/nature-landscape-mountain-volcano-clouds-mist-crater-sunrise-mount-bromo-indonesia-sunlight-wallpaper-preview.jpg",
+    link: "#",
+    btnText: "Booking Kuota"
+  },
+  {
+    title: "Labuan Bajo",
+    desc: "Petualangan tak terlupakan di pulau Komodo dan perairan kristal.",
+    image: "https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&w=800&q=80",
+    link: "#",
+    btnText: "Eksplorasi"
+  }
+];
+
+const track = document.getElementById('carouselTrack');
+const dotsWrap = document.getElementById('dotsWrap');
+
+// 2. FUNGSI RENDER KONTEN
+function renderCarousel() {
+  tripData.forEach((item, i) => {
+    // Buat Slide
+    const slide = document.createElement('div');
+    slide.className = 'slide';
+    slide.innerHTML = `
+      <div class="card" style="background-image: url('${item.image}')">
+        <h2>${item.title}</h2>
+        <p>${item.desc}</p>
+        <button class="btn" onclick="parent.openTripFromAd('${item.title}')">${item.btnText}</button>
+      </div>
+    `;
+    track.appendChild(slide);
+
+    // Buat Dots
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => {
+      goTo(i);
+      restartAuto();
+    };
+    dotsWrap.appendChild(dot);
+  });
+}
+
+// Jalankan fungsi render
+renderCarousel();
+
+// 3. LOGIKA CAROUSEL (Sama seperti sebelumnya)
+let index = 0;
+let interval;
+const delay = 4000;
+const slidesCount = tripData.length;
+
+function goTo(i) {
+  index = i;
+  track.style.transform = `translateX(-${i * 100}%)`;
+  updateDots();
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, j) =>
+    d.classList.toggle('active', j === index)
+  );
+}
+
+function startAuto() {
+  interval = setInterval(() => {
+    index = (index + 1) % slidesCount;
+    goTo(index);
+  }, delay);
+}
+
+function restartAuto() {
+  clearInterval(interval);
+  startAuto();
+}
+
+startAuto();
+
+// Geser (Swipe)
+let startX = 0;
+track.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+  clearInterval(interval);
+});
+
+track.addEventListener('touchend', e => {
+  let diff = e.changedTouches[0].clientX - startX;
+  if (diff > 50 && index > 0) index--;
+  if (diff < -50 && index < slidesCount - 1) index++;
+  goTo(index);
+  startAuto();
+});
+</script>
+
+</body>
+</html>
