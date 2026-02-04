@@ -1,0 +1,201 @@
+
+<style>
+    .rental-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: var(--earth-warm-white);
+        border: 1px solid var(--earth-mist);
+        border-radius: 12px;
+    }
+    .counter-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: white;
+        padding: 5px 10px;
+        border-radius: 50px;
+        border: 1px solid var(--earth-mist);
+    }
+    .btn-counter {
+        background: var(--earth-soil);
+        color: white;
+        border: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+    .count-value {
+        font-weight: 600;
+        min-width: 20px;
+        text-align: center;
+    }
+/* Container Utama Form */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 30px;
+}
+
+/* Label Input */
+.booking-form label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--earth-wood);
+    margin-bottom: -10px;
+    /* Merapatkan label ke input */
+    margin-left: 5px;
+}
+
+/* Desain Input Fields (Text, Date, Number) */
+.booking-form input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1.5px solid var(--earth-mist);
+    background-color: var(--earth-warm-white);
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--earth-charcoal);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.booking-form input:focus {
+    outline: none;
+    border-color: var(--earth-soil);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(166, 149, 122, 0.1);
+}
+
+/* Styling Khusus Input yang Readonly (Nama Trip) */
+.booking-form input[readonly] {
+    background-color: var(--earth-cream);
+    border-color: transparent;
+    color: var(--earth-wood);
+    font-weight: 600;
+    cursor: not-allowed;
+}
+
+/* Styling Section Sewa Alat */
+.extra-rentals {
+    margin-top: 10px;
+    border-top: 1px dashed var(--earth-mist);
+    padding-top: 20px;
+}
+
+.rental-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: white;
+    border: 1px solid var(--earth-mist);
+    border-radius: 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.rental-info .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--earth-charcoal);
+    display: block;
+}
+
+.rental-info .price {
+    font-size: 0.8rem;
+    color: var(--earth-wood);
+}
+
+/* Counter Controls */
+.counter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--earth-warm-white);
+    padding: 4px;
+    border-radius: 50px;
+}
+
+.btn-counter {
+    background: var(--earth-soil);
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: transform 0.1s active;
+}
+
+.btn-counter:active {
+    transform: scale(0.9);
+}
+
+.count-value {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 25px;
+    text-align: center;
+    color: var(--earth-charcoal);
+}
+
+/* Tombol Kirim di dalam Modal */
+.booking-submit-btn {
+    background: var(--earth-soil);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: var(--ios-shadow);
+}
+</style>
+
+<div class="booking-form">
+  <label>Trip yang dipilih</label>
+  <input type="text" id="input_trip_name" readonly>
+
+  <label>Nama Lengkap</label>
+  <input type="text" id="customer_name" placeholder="Contoh: Andi Wijaya">
+
+  <label>Nomor WhatsApp</label>
+  <input type="tel" id="customer_phone" placeholder="0812xxxxxxx">
+
+  <label>Tanggal Pendakian</label>
+  <input type="date" id="trip_date">
+
+  <label>Jumlah Kuota</label>
+  <input type="number" id="participants" value="1" min="1">
+
+  <div class="extra-rentals">
+    <label>Sewa Perlengkapan Tambahan (Opsional)</label>
+    <div id="rental-list">
+      </div>
+  </div>
+
+  <button class="booking-submit-btn" onclick="sendBookingToWA()">
+    <i class="hgi hgi-stroke hgi-whatsapp"></i> Konfirmasi via WhatsApp
+  </button>
+</div>
+
