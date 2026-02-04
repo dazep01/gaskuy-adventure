@@ -65,6 +65,45 @@ function openTripFromAd(tripName) {
     alert("Trip tidak ditemukan!");
   }
 }
+function renderSmartMedia(url, poster) {
+  // 1. Deteksi YouTube
+  const ytRegex = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const ytMatch = url.match(ytRegex);
+  
+  if (ytMatch && ytMatch[2].length === 11) {
+    const videoId = ytMatch[2];
+    return `
+      <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:15px; background:#000;">
+        <iframe src="https://www.youtube.com/embed/${videoId}" 
+                style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+      </div>`;
+  }
+
+  // 2. Deteksi Direct Video Link (MP4, WebM, dsb)
+  const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
+  const isDirectVideo = videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
+
+  if (isDirectVideo) {
+    return `
+      <video controls poster="${poster}" style="width:100%; border-radius:15px; background:#000; display:block;">
+        <source src="${url}" type="video/mp4">
+        Browser tidak mendukung video.
+      </video>`;
+  }
+
+  // 3. Fallback: Jika link biasa (misal Google Drive atau Web lain)
+  return `
+    <div class="video-wrapper" onclick="window.open('${url}')" style="cursor:pointer;">
+      <div class="video-overlay">
+        <i class="hgi hgi-stroke hgi-play-circle"></i>
+        <span style="display:block; font-size:0.8rem; margin-top:5px;">Buka Video Eksternal</span>
+      </div>
+      <img src="${poster}" style="width:100%; height:180px; object-fit:cover; opacity:0.6; border-radius:15px;">
+    </div>`;
+}
+
 function showDetail(id) {
   const trip = allTrips.find(t => t.trip_id === id);
   if (!trip) return;
@@ -108,13 +147,10 @@ function showDetail(id) {
     <div class="mp-chip"><i class="hgi hgi-stroke hgi-location-01"></i> ${mp}</div><i style="font-size: 1.2rem; margin: auto 2px;" class="hgi hgi-stroke hgi-circle-arrow-right-double"></i>
   `).join('')}
   </div>
-  <h3 class="section-title">Cinematic Teaser</h3>
-  <div class="video-wrapper">
-  <div class="video-overlay" onclick="window.open('${trip.media.video}')">
-  <i class="hgi hgi-stroke hgi-play-circle"></i>
-  </div>
-  <img src="${trip.media.galeri[0]}" style="width:100%; height:100%; object-fit:cover; opacity:0.6;">
-  </div>
+<h3 class="section-title">Cinematic Teaser</h3>
+<div class="media-render-area" style="margin-bottom:20px;">
+  ${renderSmartMedia(trip.media.video, trip.media.galeri[0])}
+</div>
   <h3 class="section-title" style="margin-top:25px;">Tentang Trip Ini</h3>
   <p class="section-text" style="font-size:0.95rem; opacity:0.8;">${trip.deskripsi}</p>
   <h3 class="section-title">Fasilitas Termasuk</h3>
