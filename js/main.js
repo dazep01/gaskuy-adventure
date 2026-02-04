@@ -137,9 +137,11 @@ function showDetail(id) {
   </div>
   </div>
   <h3 class="section-title">Galeri Foto</h3>
-  <div class="gallery-container">
-  ${trip.media.galeri.map(img => `<img src="${img}" class="gallery-img" alt="Gallery">`).join('')}
-  </div>
+<div class="gallery-container">
+  ${trip.media.galeri.map((img, index) => 
+    `<img src="${img}" class="gallery-img" alt="Gallery" onclick="openLightbox('${id}', ${index})">`
+  ).join('')}
+</div>
   <h3 class="section-title" style="margin-top:20px;">Titik Kumpul</h3>
   <div class="mp-container">
   ${trip.meeting_points.map(mp => `
@@ -175,9 +177,9 @@ function showDetail(id) {
   `).join('')}
   </div>
   <div class="action-buttons-container">
-  <button class="share-btn" onclick="shareTrip('${trip.nama_trip}')">
+<button class="share-btn" onclick="shareTrip('${trip.nama_trip}', '${trip.trip_id}')">
   <i class="hgi hgi-stroke hgi-share-01"></i> Share
-  </button>
+</button>
 <button class="book-btn" onclick="openBookingModal('${trip.trip_id}')" style="width:100%;">
   <i class="hgi hgi-stroke hgi-ticket-01"></i> Pesan Sekarang
 </button>
@@ -194,6 +196,42 @@ const renderGrid = (containerSelector, data) => {
   }
   container.innerHTML = data.map(trip => createTripCard(trip)).join('');
 };
+let currentGallery = [];
+let currentIndex = 0;
+
+function openLightbox(tripId, index) {
+  const trip = allTrips.find(t => t.trip_id === tripId);
+  if (!trip) return;
+
+  currentGallery = trip.media.galeri;
+  currentIndex = index;
+
+  updateLightboxSource();
+  document.getElementById('lightboxOverlay').classList.add('active');
+}
+
+function updateLightboxSource() {
+  const imgElement = document.getElementById('lightboxImg');
+  imgElement.src = currentGallery[currentIndex];
+}
+
+function changeLightboxImage(direction) {
+  currentIndex += direction;
+  // Loop kembali ke awal jika sudah di akhir, atau sebaliknya
+  if (currentIndex >= currentGallery.length) currentIndex = 0;
+  if (currentIndex < 0) currentIndex = currentGallery.length - 1;
+  updateLightboxSource();
+}
+
+function closeLightbox() {
+  document.getElementById('lightboxOverlay').classList.remove('active');
+}
+
+// Tutup dengan tombol Esc
+document.addEventListener('keydown', (e) => {
+  if (e.key === "Escape") closeLightbox();
+});
+
 // Data Perlengkapan Sewa
 const equipmentData = [
   { id: 'tenda', name: 'Tenda Kap. 4', price: 'Rp 50k' },
@@ -313,6 +351,12 @@ async function initApp() {
     if(exploreGrid) {
       renderGrid('#explore-content .trip-grid', allTrips);
     }
+    const urlParams = new URLSearchParams(window.location.search);
+    const tripId = urlParams.get('id');
+    if (tripId) {
+      // Tunggu sebentar agar data siap, lalu tampilkan detail
+      setTimeout(() => showDetail(tripId), 500);
+    }
     setupEventListeners();
     } catch (error) {
     console.error('Error inisialisasi aplikasi:', error);
@@ -386,18 +430,23 @@ async function downloadTripImage(tripId) {
     btnDownload.disabled = false;
   }
 }
-function shareTrip(name) {
+function shareTrip(name, tripId) {
+  // Membuat URL khusus dengan parameter ID trip
+  const shareUrl = `${window.location.origin}${window.location.pathname}?id=${tripId}`;
+  const shareText = `Cek petualangan seru ini: ${name}! Yuk muncak bareng GasKuy Adventure.`;
+
   if (navigator.share) {
     navigator.share({
       title: 'GasKuy Adventure',
-      text: `Cek petualangan seru ini: ${name}! Yuk muncak bareng GasKuy Adventure.`,
-      url: window.location.href
+      text: shareText,
+      url: shareUrl
     }).catch(console.error);
-    } else {
-    alert("Link disalin ke clipboard!");
-    navigator.clipboard.writeText(`Cek trip ${name} di GasKuy Adventure: ${window.location.href}`);
+  } else {
+    navigator.clipboard.writeText(`${shareText} Klik di sini: ${shareUrl}`);
+    alert("Link khusus trip disalin ke clipboard!");
   }
 }
+
 function logout() {
   localStorage.removeItem('gaskuySession');
   window.location.replace('login.html');
