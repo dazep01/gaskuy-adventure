@@ -80,11 +80,11 @@ function renderSmartMedia(url, poster) {
                 allowfullscreen></iframe>
       </div>`;
   }
-
+  
   // 2. Deteksi Direct Video Link (MP4, WebM, dsb)
   const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov'];
   const isDirectVideo = videoExtensions.some(ext => url.toLowerCase().endsWith(ext));
-
+  
   if (isDirectVideo) {
     return `
       <video controls poster="${poster}" style="width:100%; border-radius:15px; background:#000; display:block;">
@@ -92,7 +92,7 @@ function renderSmartMedia(url, poster) {
         Browser tidak mendukung video.
       </video>`;
   }
-
+  
   // 3. Fallback: Jika link biasa (misal Google Drive atau Web lain)
   return `
     <div class="video-wrapper" onclick="window.open('${url}')" style="cursor:pointer;">
@@ -103,7 +103,6 @@ function renderSmartMedia(url, poster) {
       <img src="${poster}" style="width:100%; height:180px; object-fit:cover; opacity:0.6; border-radius:15px;">
     </div>`;
 }
-
 function showDetail(id) {
   const trip = allTrips.find(t => t.trip_id === id);
   if (!trip) return;
@@ -179,9 +178,9 @@ function showDetail(id) {
   <button class="share-btn" onclick="shareTrip('${trip.nama_trip}')">
   <i class="hgi hgi-stroke hgi-share-01"></i> Share
   </button>
-  <button class="book-btn" onclick="window.open('https://wa.me/628123456789?text=Halo GasKuy! Saya mau booking trip ${trip.nama_trip}')">
-  <i class="hgi hgi-stroke hgi-calendar-lock-01"></i> Booking
-  </button>
+<button class="book-btn" onclick="openBookingModal('${trip.trip_id}')" style="width:100%;">
+  <i class="hgi hgi-stroke hgi-ticket-01"></i> Pesan Sekarang
+</button>
   </div>
   </div> `;
   overlay.classList.add('active');
@@ -195,6 +194,112 @@ const renderGrid = (containerSelector, data) => {
   }
   container.innerHTML = data.map(trip => createTripCard(trip)).join('');
 };
+// Data Perlengkapan Sewa
+const equipmentData = [
+  { id: 'tenda', name: 'Tenda Kap. 4', price: 'Rp 50k' },
+  { id: 'carrier', name: 'Carrier 60L', price: 'Rp 35k' },
+  { id: 'sleeping_bag', name: 'Sleeping Bag', price: 'Rp 15k' },
+  { id: 'matras', name: 'Matras Angin', price: 'Rp 15k' },
+  { id: 'headlamp', name: 'Headlamp', price: 'Rp 10k' },
+  { id: 'trekking_pole', name: 'Trekking Pole', price: 'Rp 15k' }
+];
+// State untuk menyimpan jumlah sewa (ID: Jumlah)
+let selectedRentals = {};
+// Fungsi untuk membuka modal booking
+async function openBookingModal(tripId) {
+    const trip = allTrips.find(t => t.trip_id === tripId);
+    const overlay = document.getElementById('bookingOverlay');
+    const modal = document.getElementById('bookingModal');
+    const body = document.getElementById('bookingModalBody');
+
+    overlay.classList.add('active');
+    modal.classList.add('active');
+
+    try {
+        // Ambil konten dari booking.html
+        const response = await fetch('./booking.html');
+        const html = await response.text();
+        
+        // Masukkan konten ke modal
+        body.innerHTML = html;
+
+        // Otomatis isi nama trip (jika ada input dengan id 'input_trip_name')
+        const tripInput = document.getElementById('input_trip_name');
+        if(tripInput) tripInput.value = trip.nama_trip;
+
+    } catch (err) {
+        body.innerHTML = "<p style='padding:20px;'>Gagal memuat form booking. Coba lagi nanti.</p>";
+    }
+    
+    // Inisialisasi ulang state sewa
+    selectedRentals = {};
+    equipmentData.forEach(item => selectedRentals[item.id] = 0);
+    
+    // Render list sewa ke dalam modal
+const rentalContainer = document.getElementById('rental-list');
+if (rentalContainer) {
+  rentalContainer.innerHTML = equipmentData.map(item => `
+            <div class="rental-item">
+                <div>
+                    <div style="font-weight:500; font-size:0.9rem;">${item.name}</div>
+                    <small style="color:var(--earth-wood);">${item.price}</small>
+                </div>
+                <div class="counter-group">
+                    <button class="btn-counter" onclick="updateRental('${item.id}', -1)">-</button>
+                    <span class="count-value" id="count-${item.id}">0</span>
+                    <button class="btn-counter" onclick="updateRental('${item.id}', 1)">+</button>
+                </div>
+            </div>
+        `).join('');
+}
+}
+// Fungsi Tambah/Kurang
+function updateRental(id, change) {
+  const newValue = Math.max(0, (selectedRentals[id] || 0) + change);
+  selectedRentals[id] = newValue;
+  document.getElementById(`count-${id}`).innerText = newValue;
+}
+function closeBookingModal() {
+    document.getElementById('bookingOverlay').classList.remove('active');
+    document.getElementById('bookingModal').classList.remove('active');
+}
+
+// Fungsi yang dipanggil saat tombol di dalam booking.html diklik
+function sendBookingToWA() {
+    const name = document.getElementById('customer_name').value;
+    const phone = document.getElementById('customer_phone').value;
+    const date = document.getElementById('trip_date').value;
+    const tripName = document.getElementById('input_trip_name').value;
+    const participants = document.getElementById('participants').value;
+
+    if(!name || !phone || !date) {
+        alert("Mohon lengkapi data pemesanan!");
+        return;
+    }
+
+    // Susun daftar sewa yang jumlahnya > 0
+let rentalText = "";
+equipmentData.forEach(item => {
+  if (selectedRentals[item.id] > 0) {
+    rentalText += `- ${item.name} (${selectedRentals[item.id]}x)%0A`;
+  }
+});
+
+if (rentalText !== "") {
+  rentalText = `%0A📦 *Tambahan Sewa:*%0A${rentalText}`;
+}
+
+const message = `Halo GasKuy Adventure!%0A%0A` +
+  `Saya ingin booking trip:%0A` +
+  `🏔️ *Trip:* ${tripName}%0A` +
+  `👤 *Nama:* ${name}%0A` +
+  `📅 *Tanggal:* ${date}%0A` +
+  `👥 *Peserta:* ${participants} Orang%0A` +
+  `${rentalText}%0A` +
+  `Mohon total biayanya ya!`;
+
+window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
+}
 async function initApp() {
   try {
     const response = await fetch('data/trips.json');
