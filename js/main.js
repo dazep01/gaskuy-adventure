@@ -336,7 +336,7 @@ const message = `Halo GasKuy Adventure!%0A%0A` +
   `${rentalText}%0A` +
   `Mohon total biayanya ya!`;
 
-window.open(`https://wa.me/6281234567890?text=${message}`, '_blank');
+window.open(`https://wa.me/6285888250790?text=${message}`, '_blank');
 }
 async function initApp() {
   try {
