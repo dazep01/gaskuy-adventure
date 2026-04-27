@@ -4,21 +4,265 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>Trip Story Generator Pro • Gaskuy Adventure</title>
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.1/html-to-image.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
 
-    * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+    /* ========== RESET & BASE ========== */
+    * { font-family: 'Poppins', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: #0b1120;
       background-image: 
         radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
     }
 
-    /* ========== STORY CANVAS: 450x800 (9:16) = IG Story Ratio ========== */
+    @media (min-width: 768px) {
+      body { padding: 2rem; }
+    }
+
+    /* ========== LAYOUT UTAMA ========== */
+    .container-main {
+      max-width: 1152px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      .container-main {
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+      }
+    }
+
+    /* ========== PANEL EDITOR ========== */
+    .editor-panel {
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #1e293b;
+      padding: 1.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      height: fit-content;
+      border: 1px solid rgba(255, 237, 213, 0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    @media (min-width: 768px) {
+      .editor-panel { padding: 2rem; }
+    }
+
+    .editor-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .editor-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(to bottom right, #f97316, #ea580c);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.2);
+      font-size: 1.25rem;
+    }
+
+    .editor-title h2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #ea580c;
+      line-height: 1.25;
+    }
+
+    .editor-title p {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 0.375rem;
+      letter-spacing: 0.05em;
+    }
+
+    .form-input {
+      width: 100%;
+      border: 2px solid #e2e8f0;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      outline: none;
+      font-weight: 700;
+      color: #334155;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #f97316;
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+    }
+
+    .file-input {
+      width: 100%;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    .file-input::-webkit-file-upload-button {
+      margin-right: 0.75rem;
+      padding: 0.625rem 1rem;
+      border-radius: 0.75rem;
+      border: 0;
+      background-color: #fff7ed;
+      color: #c2410c;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .file-input:hover::-webkit-file-upload-button {
+      background-color: #ffedd5;
+    }
+
+    #tripContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #tripContainer::-webkit-scrollbar { width: 5px; }
+    #tripContainer::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    #tripContainer::-webkit-scrollbar-thumb { background: #f97316; border-radius: 8px; }
+
+    /* ========== BUTTONS ========== */
+    .btn-base {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-add-group {
+      background-color: #0f172a;
+      color: white;
+      padding: 0.875rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.2);
+    }
+
+    .btn-add-group:hover { background-color: #1e293b; }
+    .btn-add-group span:first-child { transition: transform 0.2s; }
+    .btn-add-group:hover span:first-child { transform: scale(1.1); }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .btn-preview {
+      background-color: #0ea5e9;
+      color: white;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      font-weight: 900;
+      box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.25);
+    }
+
+    .btn-preview:hover { background-color: #0284c7; transform: translateY(-2px); }
+
+    .btn-download {
+      background: linear-gradient(to right, #f97316, #ea580c);
+      color: white;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      font-weight: 900;
+      box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-download:hover { 
+      background: linear-gradient(to right, #ea580c, #c2410c);
+      transform: translateY(-2px); 
+    }
+
+    .btn-base:active { transform: translateY(0); }
+
+    /* ========== PANEL PREVIEW ========== */
+    .preview-panel {
+      position: sticky;
+      top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .pulse-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #4ade80;
+      border-radius: 9999px;
+      box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+
+    .status-text {
+      font-size: 0.875rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* ========== STORY CANVAS: 450x800 (9:16) ========== */
     .story-canvas {
       width: 450px;
       height: 800px;
@@ -29,9 +273,138 @@
       box-shadow: 
         0 25px 50px -12px rgba(0, 0, 0, 0.7),
         0 0 0 1px rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
     }
 
-    /* ========== GLASS CARD V2 ========== */
+    #previewBg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.7s;
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(180deg, rgba(11, 17, 32, 0.3) 0%, transparent 30%, transparent 60%, rgba(11, 17, 32, 0.8) 100%),
+        linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 50%, rgba(14, 165, 233, 0.06) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .content-canvas {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.75rem;
+    }
+
+    /* Logo & Header */
+    .header-canvas {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .logo-canvas {
+      height: 3.5rem;
+      margin-bottom: 0.25rem;
+      filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .tagline-canvas {
+      font-style: italic;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: rgba(254, 215, 170, 0.9);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .sub-tagline-canvas {
+      font-size: 7px;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .deco-line {
+      width: 6rem;
+      height: 2px;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+      flex-shrink: 0;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5), rgba(14, 165, 233, 0.5), transparent);
+    }
+
+    .title-canvas {
+      font-size: 2.5rem;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: -0.025em;
+      margin-bottom: 1rem;
+      text-align: center;
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 30px rgba(249, 115, 22, 0.3);
+      flex-shrink: 0;
+    }
+
+    #displayMonth {
+      color: #fb923c;
+      font-style: normal;
+      font-size: 1.875rem;
+      font-weight: 900;
+      border-radius: 9999px;
+      background-color: rgba(0, 13, 72, 0.31);
+      padding: 0 15px;
+    }
+
+    /* ========== SCALED TRIPS CONTAINER ========== */
+    #tripsOuterWrapper {
+      width: 100%;
+      flex-shrink: 0;
+      padding-top: 16px;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    #displayTrips {
+      width: 100%;
+      transform-origin: top center;
+      will-change: transform;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* ========== TRIP CARD ========== */
+    .card-wrapper {
+      position: relative;
+      width: 100%;
+      flex-shrink: 0;
+      padding-top: 11px;
+      margin-bottom: 20px;
+    }
+
     .trip-card {
       background: rgba(15, 23, 42, 0.55);
       backdrop-filter: blur(20px);
@@ -39,13 +412,13 @@
       border: 2px solid rgba(249, 115, 22, 0.25);
       border-radius: 1.5rem;
       padding: 20px 18px 16px;
-      margin-bottom: 20px;
       box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
       position: relative;
       overflow: visible;
       flex-shrink: 0;
+      text-align: left;
     }
 
     .trip-card::before {
@@ -56,10 +429,9 @@
       background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.6), transparent);
     }
 
-    /* ========== BADGE KATEGORI ========== */
     .category-badge {
       position: absolute;
-      top: -11px;
+      top: 0;
       left: 24px;
       background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       padding: 4px 16px;
@@ -76,7 +448,62 @@
       z-index: 1000;
     }
 
-    /* ========== SEAT BADGE ========== */
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .card-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      color: #fed7aa;
+    }
+
+    .card-date span { color: #fb923c; }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .trip-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+
+    .trip-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .trip-name {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 240px;
+      color: #f1f5f9;
+      line-height: 1.25;
+    }
+
     .seat-box {
       border-radius: 999px;
       min-width: 72px;
@@ -117,225 +544,502 @@
       50% { box-shadow: 0 2px 16px rgba(220, 38, 38, 0.6); }
     }
 
-    .shadow-text {
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+    /* ========== FOOTER CANVAS ========== */
+    .footer-canvas {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 1.75rem;
+      right: 1.75rem;
+      margin-top: 20px;
     }
 
-    /* ========== SCROLL EDITOR ========== */
-    #tripContainer::-webkit-scrollbar { width: 5px; }
-    #tripContainer::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
-    #tripContainer::-webkit-scrollbar-thumb { background: #f97316; border-radius: 8px; }
-
-    /* ========== BUTTONS ========== */
-    .btn-action {
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: 0.5px;
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
     }
-    .btn-action:hover { transform: translateY(-2px); }
-    .btn-action:active { transform: translateY(0); }
 
-    /* ========== FOOTER CHIPS ========== */
     .contact-chip {
-      background: linear-gradient(135deg, #f9731690 0%, #ea58090c 100%);
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.56) 0%, rgba(234, 88, 9, 0.05) 100%);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      padding: 0.375rem 1rem 0.375rem 0.375rem;
+      border-radius: 9999px;
+    }
+
+    .chip-icon {
+      border-radius: 9999px;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon-ig { background: linear-gradient(to bottom right, #fb923c, #ec4899); }
+    .icon-wa { 
+      background-color: #10b981;
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
+    }
+
+    .chip-text {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.025em;
+    }
+
+    .footer-divider {
+      margin-top: 0.75rem;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(249, 115, 22, 0.4), transparent);
+    }
+
+    .copyright {
+      text-align: center;
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.3);
+      margin-top: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* ========== INPUT CARDS IN EDITOR ========== */
+    .input-card {
+      padding: 1.25rem;
+      background-color: #f8fafc;
+      border-radius: 1rem;
+      border: 2px solid #e2e8f0;
+      position: relative;
+      transition: all 0.2s;
+    }
+
+    .input-card:hover {
+      border-color: #fdba74;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-remove-group {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      color: #ef4444;
+      font-weight: 700;
+      font-size: 10px;
+      background-color: white;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      border: 1px solid #fee2e2;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-remove-group:hover {
+      color: #b91c1c;
+      border-color: #fecaca;
+    }
+
+    .input-card-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-right: 4rem;
+    }
+
+    .input-mini-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .input-title {
+      font-weight: 700;
+      font-size: 0.875rem;
+      border: none;
+      border-bottom: 2px solid #fdba74;
+      background: transparent;
+      text-transform: uppercase;
+      outline: none;
+      width: 100%;
+      padding-bottom: 0.25rem;
+      transition: border-color 0.2s;
+    }
+
+    .input-title:focus { border-color: #f97316; }
+
+    .input-date {
+      font-size: 0.75rem;
+      border: none;
+      border-bottom: 1px solid #cbd5e1;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      padding-bottom: 0.25rem;
+      transition: border-color 0.2s;
+    }
+
+    .input-date:focus { border-color: #94a3b8; }
+
+    .items-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .items-header {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 10px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .item-row {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .input-item-name {
+      grid-column: span 8;
+      font-size: 0.75rem;
+      border: 1px solid #e2e8f0;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      outline: none;
+      background: white;
+      transition: all 0.2s;
+    }
+
+    .input-item-name:focus { border-color: #fb923c; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1); }
+
+    .input-item-seat {
+      grid-column: span 3;
+      font-size: 0.75rem;
+      border: 1px solid #fed7aa;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: rgba(255, 247, 237, 0.5);
+      font-weight: 700;
+      color: #7c2d12;
+      outline: none;
+    }
+
+    .btn-remove-item {
+      grid-column: span 1;
+      color: #f87171;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-remove-item:hover { color: #dc2626; background-color: #fef2f2; }
+
+    .btn-add-item {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #0284c7;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-add-item:hover { color: #0369a1; }
+
+    .btn-add-item span:first-child {
+      background-color: #e0f2fe;
+      color: #0284c7;
+      border-radius: 9999px;
+      width: 1.25rem;
+      height: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
     }
 
     /* ========== MODAL ========== */
-    #modal { backdrop-filter: blur(8px); }
+    #modal {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
 
-    /* ========== BACKGROUND OVERLAY ========== */
-    .bg-overlay {
+    #modal.flex { display: flex; }
+
+    .modal-container {
+      max-width: 24rem;
+      width: 100%;
+    }
+
+    #modalContent {
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    #modalContent img { width: 100%; display: block; }
+
+    .btn-close-modal {
+      width: 100%;
+      margin-top: 1rem;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-close-modal:hover { background-color: rgba(255, 255, 255, 0.2); }
+
+    /* ========== LOADER ========== */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: all 0.3s;
+    }
+
+    #loader.flex { display: flex; }
+
+    .loader-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem;
+      border-radius: 1.5rem;
+      background-color: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .spinner-container {
+      position: relative;
+      width: 4rem;
+      height: 4rem;
+    }
+
+    .spinner-bg {
       position: absolute;
       inset: 0;
-      background: 
-        linear-gradient(180deg, rgba(11, 17, 32, 0.3) 0%, transparent 30%, transparent 60%, rgba(11, 17, 32, 0.8) 100%),
-        linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 50%, rgba(14, 165, 233, 0.06) 100%);
-      pointer-events: none;
-      z-index: 1;
+      border: 4px solid rgba(249, 115, 22, 0.2);
+      border-radius: 9999px;
     }
 
-    .vignette {
+    .spinner-active {
       position: absolute;
       inset: 0;
-      box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
-      pointer-events: none;
-      z-index: 2;
+      border: 4px solid transparent;
+      border-top-color: #f97316;
+      border-radius: 9999px;
+      animation: spin 1s linear infinite;
     }
 
-    .deco-line {
-      height: 2px;
-      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5), rgba(14, 165, 233, 0.5), transparent);
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    .glow-text {
-      text-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+    .loader-text {
+      text-align: center;
     }
 
-    /* ========== SCALED TRIPS CONTAINER ========== */
-/* Wrapper luar TIDAK diskalakan, hanya memberi ruang */
-#tripsOuterWrapper {
-  padding-top: 16px;
-  box-sizing: border-box;
-  overflow: visible;
-}
+    .loader-text p:first-child {
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+    }
 
-/* Kontainer kartu yang akan diskalakan */
-#displayTrips {
-  width: 100%;
-  transform-origin: top center;
-  will-change: transform;
-  overflow: visible !important; /* agar badge tetap terlihat */
-  box-sizing: border-box;
-}
+    .loader-text p:last-child {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 10px;
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+    
+    .hidden { display: none !important; }
   </style>
-<base target="_blank">
 </head>
-<body class="min-h-screen p-4 md:p-8 flex items-center justify-center">
+<body>
 
-  <div class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+  <div class="container-main">
 
     <!-- ========== PANEL EDITOR ========== -->
-    <div class="bg-white/95 text-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl h-fit border border-orange-100/50 backdrop-blur-sm">
-      <div class="flex items-center gap-3 mb-8">
-        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
-          <span class="text-xl">⚙️</span>
+    <div class="editor-panel">
+      <div class="editor-header">
+        <div class="editor-icon">
+          <span>⚙️</span>
         </div>
-        <div>
-          <h2 class="text-2xl font-black text-orange-600 leading-tight">Trip Editor</h2>
-          <p class="text-xs text-slate-400 font-medium">Gaskuy Adventure</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <div>
-          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5 tracking-wider">Bulan Trip</label>
-          <input type="text" id="inputMonth" value="APRIL" 
-            class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none font-bold text-slate-700 transition-all">
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5 tracking-wider">Background</label>
-          <input type="file" id="bgUpload" accept="image/*" 
-            class="w-full text-xs mt-1 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-orange-50 file:text-orange-700 file:font-semibold hover:file:bg-orange-100 cursor-pointer transition-colors">
+        <div class="editor-title">
+          <h2>Trip Editor</h2>
+          <p>Gaskuy Adventure</p>
         </div>
       </div>
 
-      <div id="tripContainer" class="space-y-5 max-h-[420px] overflow-y-auto pr-2 mb-6"></div>
+      <div class="form-grid">
+        <div>
+          <label class="form-label">Bulan Trip</label>
+          <input type="text" id="inputMonth" value="APRIL" class="form-input">
+        </div>
+        <div>
+          <label class="form-label">Background</label>
+          <input type="file" id="bgUpload" accept="image/*" class="file-input">
+        </div>
+      </div>
 
-      <button onclick="addTripGroup()" 
-        class="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold hover:bg-slate-800 transition-all mb-5 flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20 group">
-        <span class="group-hover:scale-110 transition-transform">+</span>
+      <div id="tripContainer"></div>
+
+      <button onclick="addTripGroup()" class="btn-base btn-add-group">
+        <span>+</span>
         <span>Tambah Kategori</span>
       </button>
 
-      <div class="grid grid-cols-2 gap-3">
-        <button onclick="generatePreview()" 
-          class="btn-action bg-sky-500 text-white py-4 rounded-xl font-black hover:bg-sky-600 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
+      <div class="action-grid">
+        <button onclick="generatePreview()" class="btn-base btn-preview">
           <span>🔍</span> PREVIEW
         </button>
-        <button onclick="downloadImage()" 
-          class="btn-action bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-xl font-black hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2">
+        <button onclick="downloadImage()" class="btn-base btn-download">
           <span>⬇️</span> DOWNLOAD PNG
         </button>
       </div>
     </div>
 
     <!-- ========== AREA PREVIEW (CANVAS) ========== -->
-    <div class="sticky top-8 flex flex-col items-center">
-      <div class="flex items-center gap-2 mb-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
-        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
-        <p class="text-sm text-slate-300 font-medium">Live Preview • HD 1080×1920 output</p>
+    <div class="preview-panel">
+      <div class="status-badge">
+        <span class="pulse-dot"></span>
+        <p class="status-text">Live Preview • HD 1080×1920 output</p>
       </div>
 
-      <div id="captureArea" class="story-canvas flex flex-col items-center text-white relative">
+      <div id="captureArea" class="story-canvas">
         <!-- Background dinamis -->
-        <div id="previewBg" class="absolute inset-0 bg-cover bg-center transition-all duration-700" 
-          style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000');"></div>
+        <div id="previewBg" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000');"></div>
 
         <div class="bg-overlay"></div>
         <div class="vignette"></div>
 
         <!-- Konten utama -->
-        <div class="relative z-10 w-full h-full flex flex-col items-center px-7 py-7">
+        <div class="content-canvas">
 
           <!-- Logo & Tagline -->
-          <div class="flex flex-col items-center mb-2 flex-shrink-0">
+          <div class="header-canvas">
             <img id="previewLogo" crossorigin="anonymous" src="https://i.ibb.co.com/whW1vJnS/LOGO-GSKY.png" alt="Gaskuy Adventure" 
-              class="h-14 mb-1 drop-shadow-lg" onerror="this.style.display='none'">
-            <p class="italic text-[10px] tracking-[0.4em] font-semibold uppercase text-orange-200/90 shadow-text">
-              Escape to Nature
-            </p>
-            <p class="text-[7px] text-white-200/90 shadow-text">
-              Tentang Rasa Cukup, Kebersamaan, dan Kembali ke Alam
-            </p>
+              class="logo-canvas" onerror="this.style.display='none'">
+            <p class="tagline-canvas">Escape to Nature</p>
+            <p class="sub-tagline-canvas">Tentang Rasa Cukup, Kebersamaan, dan Kembali ke Alam</p>
           </div>
 
-          <div class="deco-line w-24 mb-4 opacity-60 flex-shrink-0"></div>
+          <div class="deco-line"></div>
 
           <!-- Judul utama -->
-          <h1 class="text-[2.5rem] font-black italic tracking-tight mb-4 shadow-text text-center leading-none glow-text flex-shrink-0">
+          <h1 class="title-canvas">
             UPDATE TRIP<br>
-            <span id="displayMonth" class="text-orange-400 not-italic text-3xl font-black rounded-full" style="background-color: #000d4850; padding-right: 15px; padding-left: 15px;">APRIL</span>
+            <span id="displayMonth">APRIL</span>
           </h1>
 
           <!-- Daftar kartu trip (dinamis, auto-scale) -->
-<!-- WRAPPER statis dengan padding-top untuk badge -->
-<div id="tripsOuterWrapper" class="w-full flex-shrink-0" style="padding-top: 16px;">
-  <div id="displayTrips" class="w-full space-y-4" style="transform-origin: top center;"></div>
-</div>
-
+          <div id="tripsOuterWrapper">
+            <div id="displayTrips"></div>
+          </div>
 
           <!-- ========== FOOTER ========== -->
-    <!-- FOOTER ABSOLUT - selalu di bawah -->
-    <div id="storyFooter" class="absolute bottom-3 left-7 right-7" style="margin-top: 20px;">
-        <div class="flex justify-between items-center gap-3">
-            <div class="contact-chip flex items-center gap-2 text-white pl-1.5 pr-4 py-1.5 rounded-full">
-                <span class="bg-gradient-to-br from-orange-400 to-pink-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg">
-                    <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                    </svg>
+          <div id="storyFooter" class="footer-canvas">
+            <div class="contact-row">
+              <div class="contact-chip">
+                <span class="chip-icon icon-ig">
+                  <svg style="width: 0.875rem; height: 0.875rem; fill: white;" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                  </svg>
                 </span>
-                <span class="text-[11px] font-bold tracking-wide">@gaskuy_adventure</span>
-            </div>
-            <div class="contact-chip flex items-center gap-2 text-white pl-1.5 pr-4 py-1.5 rounded-full">
-                <span class="bg-emerald-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                    <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
-                        <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z"/>
-                    </svg>
+                <span class="chip-text">@gaskuy_adventure</span>
+              </div>
+              <div class="contact-chip">
+                <span class="chip-icon icon-wa">
+                  <svg style="width: 0.875rem; height: 0.875rem; fill: white;" viewBox="0 0 24 24">
+                    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z"/>
+                  </svg>
                 </span>
-                <span class="text-[11px] font-bold tracking-wide">0882-9912-1348</span>
+                <span class="chip-text">0882-9912-1348</span>
+              </div>
             </div>
-        </div>
-        <div class="mt-3 w-full h-px bg-gradient-to-r from-transparent via-orange-400/40 to-transparent"></div>
-        <p class="text-center text-[9px] text-white/30 mt-2 tracking-widest uppercase font-medium">Gaskuy Adventure © 2026</p>
-    </div>
-</div>
+            <div class="footer-divider"></div>
+            <p class="copyright">Gaskuy Adventure © 2026</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Modal -->
-  <div id="modal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-6">
-    <div class="max-w-sm w-full">
-      <div id="modalContent" class="rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl"></div>
-      <button onclick="closeModal()" class="w-full mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold py-3 rounded-xl hover:bg-white/20 transition">TUTUP</button>
+  <div id="modal">
+    <div class="modal-container">
+      <div id="modalContent"></div>
+      <button onclick="closeModal()" class="btn-close-modal">TUTUP</button>
     </div>
   </div>
 
-<div id="loader" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-center justify-center z-[9999] transition-all duration-300">
-  <div class="flex flex-col items-center gap-4 p-8 rounded-3xl bg-slate-900/80 border border-white/10 shadow-2xl">
-    <div class="relative w-16 h-16">
-      <div class="absolute inset-0 border-4 border-orange-500/20 rounded-full"></div>
-      <div class="absolute inset-0 border-4 border-t-orange-500 rounded-full animate-spin"></div>
-    </div>
-    <div class="text-center">
-      <p class="text-white font-bold tracking-widest text-sm uppercase">Sedang Memproses...</p>
-      <p class="text-white/40 text-[10px] mt-1 font-medium">Sabar ya, lagi bikin gambar HD buat kamu</p>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-card">
+      <div class="spinner-container">
+        <div class="spinner-bg"></div>
+        <div class="spinner-active"></div>
+      </div>
+      <div class="loader-text">
+        <p>Sedang Memproses...</p>
+        <p>Sabar ya, lagi bikin gambar HD buat kamu</p>
+      </div>
     </div>
   </div>
-</div>
 
   <script>
     let trips = [
@@ -362,114 +1066,96 @@
       }
     ];
 
-// 1. Pastikan fungsi pendukung ada di paling atas agar terbaca duluan
-const toggleLoader = (show) => {
-  const loader = document.getElementById('loader');
-  if (!loader) return; // Mencegah error jika HTML loader lupa dicopy
-  if (show) {
-    loader.classList.remove('hidden');
-    loader.classList.add('flex');
-  } else {
-    loader.classList.remove('flex');
-    loader.classList.add('hidden');
-  }
-};
+    const toggleLoader = (show) => {
+      const loader = document.getElementById('loader');
+      if (!loader) return;
+      if (show) {
+        loader.classList.add('flex');
+      } else {
+        loader.classList.remove('flex');
+      }
+    };
 
-// Fungsi pembantu untuk membersihkan teks
-function escapeHtml(text) {
-  return String(text).replace(/[&<>"]/g, (m) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
-  }[m]));
-}
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+      }[m]));
+    }
 
-// 2. Fungsi Utama Preview
-async function generatePreview() {
-  const node = document.getElementById('captureArea');
-  const modalContent = document.getElementById('modalContent');
-  
-  if (!node || !modalContent) {
-    alert("Error: Elemen captureArea atau modal tidak ditemukan!");
-    return;
-  }
+    async function generatePreview() {
+      const node = document.getElementById('captureArea');
+      const modalContent = document.getElementById('modalContent');
+      
+      if (!node || !modalContent) {
+        alert("Error: Elemen captureArea atau modal tidak ditemukan!");
+        return;
+      }
 
-  toggleLoader(true); // Munculkan spinner
+      toggleLoader(true);
 
-  try {
-    // Beri waktu 200ms agar browser merender spinner-nya dulu
-    await new Promise(r => setTimeout(r, 200));
+      try {
+        await new Promise(r => setTimeout(r, 200));
 
-    // Pastikan memanggil 'htmlToImage' dengan benar
-    const dataUrl = await htmlToImage.toPng(node, {
-      pixelRatio: 2,
-      cacheBust: true,
-      skipFonts: false,
-    });
+        const dataUrl = await htmlToImage.toPng(node, {
+          pixelRatio: 2,
+          cacheBust: true,
+          skipFonts: false,
+        });
 
-    if (!dataUrl) throw new Error("Gagal menghasilkan gambar (DataURL kosong)");
+        if (!dataUrl) throw new Error("Gagal menghasilkan gambar (DataURL kosong)");
 
-    const img = new Image();
-    img.src = dataUrl;
-    img.className = "w-full rounded-lg";
-    
-    modalContent.innerHTML = '';
-    modalContent.appendChild(img);
-    
-    document.getElementById('modal').classList.replace('hidden', 'flex');
+        const img = new Image();
+        img.src = dataUrl;
+        
+        modalContent.innerHTML = '';
+        modalContent.appendChild(img);
+        
+        document.getElementById('modal').classList.add('flex');
 
-  } catch (error) {
-    console.error("Detail Error:", error);
-    alert("Gagal Preview: " + error.message);
-  } finally {
-    toggleLoader(false); // Matikan spinner
-  }
-}
+      } catch (error) {
+        console.error("Detail Error:", error);
+        alert("Gagal Preview: " + error.message);
+      } finally {
+        toggleLoader(false);
+      }
+    }
 
-// 3. Fungsi Utama Download
-async function downloadImage() {
-  const node = document.getElementById('captureArea');
-  if (!node) return;
+    async function downloadImage() {
+      const node = document.getElementById('captureArea');
+      if (!node) return;
 
-  toggleLoader(true);
+      toggleLoader(true);
 
-  // --- LANGKAH FIX BUG ROUNDED ---
-  // Simpan gaya asli
-  const originalRadius = node.style.borderRadius;
-  const originalShadow = node.style.boxShadow;
-  
-  // Paksa jadi kotak sempurna untuk hasil unduhan
-  node.style.borderRadius = '0';
-  node.style.boxShadow = 'none';
+      const originalRadius = node.style.borderRadius;
+      const originalShadow = node.style.boxShadow;
+      
+      node.style.borderRadius = '0';
+      node.style.boxShadow = 'none';
 
-  try {
-    await new Promise(r => setTimeout(r, 200));
+      try {
+        await new Promise(r => setTimeout(r, 200));
 
-    const dataUrl = await htmlToImage.toPng(node, {
-      pixelRatio: 3,
-      cacheBust: true,
-      // Pastikan background color di-set agar tidak transparan di sudut
-      backgroundColor: '#0b1120' 
-    });
+        const dataUrl = await htmlToImage.toPng(node, {
+          pixelRatio: 3,
+          cacheBust: true,
+          backgroundColor: '#0b1120' 
+        });
 
-    const month = document.getElementById('inputMonth').value || 'TRIP';
-    const link = document.createElement('a');
-    link.download = `Gaskuy-Update-${month}.png`;
-    link.href = dataUrl;
-    link.click();
+        const month = document.getElementById('inputMonth').value || 'TRIP';
+        const link = document.createElement('a');
+        link.download = `Gaskuy-Update-${month}.png`;
+        link.href = dataUrl;
+        link.click();
 
-  } catch (error) {
-    console.error("Detail Error:", error);
-    alert("Gagal Download: " + error.message);
-  } finally {
-    // Kembalikan tampilan di web agar tetap cantik (rounded)
-    node.style.borderRadius = originalRadius;
-    node.style.boxShadow = originalShadow;
-    toggleLoader(false);
-  }
-}
-
-
-// Fungsi render dan data lainnya tetap sama seperti sebelumnya...
-// (Pastikan sisa fungsi seperti addTripGroup, renderInputs, dll ada di bawah sini)
+      } catch (error) {
+        console.error("Detail Error:", error);
+        alert("Gagal Download: " + error.message);
+      } finally {
+        node.style.borderRadius = originalRadius;
+        node.style.boxShadow = originalShadow;
+        toggleLoader(false);
+      }
+    }
 
     function renderInputs() {
       const container = document.getElementById('tripContainer');
@@ -477,57 +1163,46 @@ async function downloadImage() {
 
       trips.forEach((trip, tIdx) => {
         const card = document.createElement('div');
-        card.className = "p-5 bg-slate-50 rounded-2xl border-2 border-slate-200 relative hover:border-orange-300 transition-all hover:shadow-md";
+        card.className = "input-card";
         card.innerHTML = `
-          <button onclick="removeTrip(${tIdx})" class="absolute top-3 right-3 text-red-500 hover:text-red-700 font-bold text-[10px] bg-white px-2.5 py-1 rounded-full shadow-sm border border-red-100 hover:border-red-300 transition">HAPUS GRUP</button>
+          <button onclick="removeTrip(${tIdx})" class="btn-remove-group">HAPUS GRUP</button>
 
-          <div class="grid grid-cols-2 gap-3 mb-4 pr-16">
+          <div class="input-card-header">
             <div>
-              <label class="text-[9px] font-bold uppercase text-slate-400 mb-1 block">Kategori</label>
+              <label class="input-mini-label">Kategori</label>
               <input type="text" oninput="updateTripData(${tIdx}, 'title', this.value)" value="${escapeHtml(trip.title)}" 
-                class="font-bold text-sm border-b-2 border-orange-300 bg-transparent uppercase outline-none placeholder-slate-400 w-full pb-1 focus:border-orange-500 transition-colors" placeholder="Nama Kategori">
+                class="input-title" placeholder="Nama Kategori">
             </div>
             <div>
-              <label class="text-[9px] font-bold uppercase text-slate-400 mb-1 block">Tanggal</label>
+              <label class="input-mini-label">Tanggal</label>
               <input type="text" oninput="updateTripData(${tIdx}, 'date', this.value)" value="${escapeHtml(trip.date)}" 
-                class="text-xs border-b border-slate-300 bg-transparent outline-none placeholder-slate-400 w-full pb-1 focus:border-orange-400 transition-colors" placeholder="Tanggal">
+                class="input-date" placeholder="Tanggal">
             </div>
           </div>
 
-          <div class="space-y-2" id="items-${tIdx}">
-            <div class="grid grid-cols-12 gap-2 mb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              <div class="col-span-8">Destinasi</div>
-              <div class="col-span-3">Status</div>
+          <div class="items-container" id="items-${tIdx}">
+            <div class="items-header">
+              <div style="grid-column: span 8;">Destinasi</div>
+              <div style="grid-column: span 3;">Status</div>
             </div>
             ${trip.items.map((item, iIdx) => `
-              <div class="grid grid-cols-12 gap-2 items-center group">
+              <div class="item-row">
                 <input type="text" placeholder="Nama Gunung" oninput="updateItemData(${tIdx}, ${iIdx}, 'name', this.value)" value="${escapeHtml(item.name)}" 
-                  class="col-span-8 text-xs border border-slate-200 p-2 rounded-lg focus:border-orange-400 focus:ring-2 focus:ring-orange-500/10 outline-none transition-all bg-white">
+                  class="input-item-name">
                 <input type="text" placeholder="Sisa" oninput="updateItemData(${tIdx}, ${iIdx}, 'seat', this.value)" value="${escapeHtml(item.seat)}" 
-                  class="col-span-3 text-xs border border-orange-200 p-2 rounded-lg bg-orange-50/50 font-bold text-orange-900 focus:border-orange-400 focus:ring-2 focus:ring-orange-500/10 outline-none transition-all">
-                <button onclick="removeItem(${tIdx}, ${iIdx})" 
-                  class="col-span-1 text-red-400 font-bold hover:text-red-600 hover:bg-red-50 rounded-lg h-8 transition flex items-center justify-center">×</button>
+                  class="input-item-seat">
+                <button onclick="removeItem(${tIdx}, ${iIdx})" class="btn-remove-item">×</button>
               </div>
             `).join('')}
           </div>
-          <button onclick="addItem(${tIdx})" class="mt-4 text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5 hover:gap-2 transition-all">
-            <span class="bg-sky-100 text-sky-600 rounded-full w-5 h-5 flex items-center justify-center text-[10px]">+</span>
+          <button onclick="addItem(${tIdx})" class="btn-add-item">
+            <span>+</span>
             <span>Tambah Destinasi</span>
           </button>
         `;
         container.appendChild(card);
       });
       updatePreview();
-    }
-
-    function escapeHtml(text) {
-      return String(text).replace(/[&<>"]/g, function(m) {
-        if (m === '&') return '&amp;';
-        if (m === '<') return '&lt;';
-        if (m === '>') return '&gt;';
-        if (m === '"') return '&quot;';
-        return m;
-      });
     }
 
     function getSeatClass(seatText) {
@@ -541,7 +1216,6 @@ async function downloadImage() {
       return 'seat-available';
     }
 
-    // ========== AUTO SCALE LOGIC ==========
     function updatePreview() {
       document.getElementById('displayMonth').innerText = document.getElementById('inputMonth').value || 'APRIL';
 
@@ -549,91 +1223,70 @@ async function downloadImage() {
       display.innerHTML = '';
       display.style.transform = 'none';
 
-    trips.forEach(trip => {
-      // 1. Buat elemen wrapper baru
-      const cardWrapper = document.createElement('div');
-      cardWrapper.className = "relative w-full flex-shrink-0";
-      // Kita beri ruang atas 11px, dan pindahkan jarak antar kartu ke wrapper
-      cardWrapper.style.paddingTop = "11px";
-      cardWrapper.style.marginBottom = "20px";
+      trips.forEach(trip => {
+        const cardWrapper = document.createElement('div');
+        cardWrapper.className = "card-wrapper";
 
-      cardWrapper.innerHTML = `
-        <div class="category-badge" style="top: 0;">${escapeHtml(trip.title)}</div>
-        
-        <div class="trip-card text-left" style="margin-bottom: 0;">
-          <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-2 mt-2">
-            <span class="text-[11px] font-bold tracking-tight flex items-center gap-1.5 text-orange-200">
-              <span class="text-orange-400">📅</span> ${escapeHtml(trip.date)}
-            </span>
-            <span class="text-[11px] font-black uppercase tracking-widest text-white/40">Sisa Seat</span>
+        cardWrapper.innerHTML = `
+          <div class="category-badge">${escapeHtml(trip.title)}</div>
+          
+          <div class="trip-card">
+            <div class="card-header">
+              <span class="card-date">
+                <span>📅</span> ${escapeHtml(trip.date)}
+              </span>
+              <span class="card-label">Sisa Seat</span>
+            </div>
+            <ul class="trip-list">
+              ${trip.items.map(item => `
+                <li class="trip-item">
+                  <span class="trip-name">• ${escapeHtml(item.name)}</span>
+                  <div class="seat-box ${getSeatClass(item.seat)}">${escapeHtml(item.seat) || '0'}</div>
+                </li>
+              `).join('')}
+            </ul>
           </div>
-          <ul class="space-y-2.5">
-            ${trip.items.map(item => `
-              <li class="flex justify-between items-center gap-3">
-                <span class="text-[10.5px] font-medium tracking-wide truncate max-w-[240px] text-slate-100 leading-tight">• ${escapeHtml(item.name)}</span>
-                <div class="seat-box ${getSeatClass(item.seat)}">${escapeHtml(item.seat) || '0'}</div>
-              </li>
-            `).join('')}
-          </ul>
-        </div>
-      `;
-      display.appendChild(cardWrapper);
-    });
+        `;
+        display.appendChild(cardWrapper);
+      });
 
-      // Hitung dan apply scale setelah render
       requestAnimationFrame(() => {
         applyAutoScale();
       });
     }
 
-function applyAutoScale() {
-  const canvas = document.getElementById('captureArea');
-  const outerWrapper = document.getElementById('tripsOuterWrapper');
-  const tripsContainer = document.getElementById('displayTrips');
-  const contentWrapper = canvas.querySelector('.relative.z-10');
-  const footer = document.getElementById('storyFooter');
-  const h1 = contentWrapper.querySelector('h1');
+    function applyAutoScale() {
+      const canvas = document.getElementById('captureArea');
+      const outerWrapper = document.getElementById('tripsOuterWrapper');
+      const tripsContainer = document.getElementById('displayTrips');
+      const footer = document.getElementById('storyFooter');
+      const title = canvas.querySelector('.title-canvas');
 
-  // Reset dulu biar ukuran natural bisa diukur
-  tripsContainer.style.transform = 'none';
-  tripsContainer.style.maxHeight = 'none';
-  outerWrapper.style.maxHeight = 'none';
-  outerWrapper.style.marginBottom = '0';
+      tripsContainer.style.transform = 'none';
+      outerWrapper.style.maxHeight = 'none';
+      outerWrapper.style.marginBottom = '0';
 
-  const canvasRect = canvas.getBoundingClientRect();
-  const canvasHeight = canvasRect.height;          // 800px
-  const headerBottom = h1.getBoundingClientRect().bottom - canvasRect.top;
-  const footerHeight = footer.offsetHeight;
-  const footerMarginBottom = 28;                  // bottom-7
-  const gap = 16;                                 // jarak antara header & kartu
+      const canvasHeight = 800;
+      const titleRect = title.getBoundingClientRect();
+      const canvasRect = canvas.getBoundingClientRect();
+      const headerBottom = titleRect.bottom - canvasRect.top;
+      const footerHeight = footer.offsetHeight;
+      const footerBottomOffset = 12; // bottom-3 (0.75rem = 12px)
+      const gap = 16;
 
-  const footerTop = canvasHeight - footerMarginBottom - footerHeight;
-  // Ruang yang tersedia untuk outerWrapper (termasuk padding-top)
-  const availableForWrapper = footerTop - headerBottom - gap;
+      const footerTop = canvasHeight - footerBottomOffset - footerHeight;
+      const availableForWrapper = footerTop - headerBottom - gap;
+      const naturalHeight = tripsContainer.scrollHeight;
+      const wrapperPaddingTop = 16;
 
-  // Natural height dari konten kartu saja (tanpa padding wrapper)
-  const naturalHeight = tripsContainer.scrollHeight;
+      if (naturalHeight > 0 && naturalHeight > (availableForWrapper - wrapperPaddingTop)) {
+        const availableForCards = availableForWrapper - wrapperPaddingTop;
+        const scale = availableForCards / naturalHeight;
 
-  // Padding wrapper yang tetap (tidak di-scale)
-  const wrapperPaddingTop = 16;
-
-  if (naturalHeight > 0 && naturalHeight > (availableForWrapper - wrapperPaddingTop)) {
-    const availableForCards = availableForWrapper - wrapperPaddingTop;
-    const scale = availableForCards / naturalHeight;
-
-    // Terapkan scale pada tripsContainer
-    tripsContainer.style.transform = `scale(${scale})`;
-    tripsContainer.style.transformOrigin = 'top center';
-
-    // Batasi tinggi outer wrapper agar tidak meluber ke footer
-    outerWrapper.style.maxHeight = availableForWrapper + 'px';
-    outerWrapper.style.marginBottom = '0';
-  } else {
-    // Konten cukup pendek, tidak perlu scale
-    tripsContainer.style.transform = 'none';
-    outerWrapper.style.maxHeight = 'none';
-  }
-}
+        tripsContainer.style.transform = `scale(${scale})`;
+        outerWrapper.style.maxHeight = availableForWrapper + 'px';
+      }
+    }
 
     function addTripGroup() {
       trips.push({ 
@@ -683,13 +1336,12 @@ function applyAutoScale() {
 
     document.getElementById('inputMonth').addEventListener('input', updatePreview);
 
-    // Re-scale saat resize window
     window.addEventListener('resize', () => {
       requestAnimationFrame(applyAutoScale);
     });
 
     function closeModal() {
-      document.getElementById('modal').classList.replace('flex', 'hidden');
+      document.getElementById('modal').classList.remove('flex');
     }
 
     renderInputs();
