@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Trip Story Generator Pro • Gaskuy Adventure</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.1/html-to-image.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
+
+    * { font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+
+    body {
+      background: #0b1120;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(249, 115, 22, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.1) 0px, transparent 50%);
+    }
+
+    /* ========== STORY CANVAS: 450x800 (9:16) = IG Story Ratio ========== */
+    .story-canvas {
+      width: 450px;
+      height: 800px;
+      position: relative;
+      overflow: hidden;
+      background-color: #0f172a;
+      border-radius: 2rem;
+      box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    /* ========== GLASS CARD V2 ========== */
+    .trip-card {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(249, 115, 22, 0.25);
+      border-radius: 1.5rem;
+      padding: 20px 18px 16px;
+      margin-bottom: 20px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: visible;
+      flex-shrink: 0;
+    }
+
+    .trip-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.6), transparent);
+    }
+
+    /* ========== BADGE KATEGORI ========== */
+    .category-badge {
+      position: absolute;
+      top: -11px;
+      left: 24px;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      padding: 4px 16px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      font-style: italic;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: white;
+      box-shadow: 
+        0 4px 15px rgba(249, 115, 22, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      z-index: 1000;
+    }
+
+    /* ========== SEAT BADGE ========== */
+    .seat-box {
+      border-radius: 999px;
+      min-width: 72px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .seat-available {
+      background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+      color: #7c2d12;
+      border: 1px solid rgba(251, 146, 60, 0.3);
+    }
+
+    .seat-full {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      animation: pulse-red 2s infinite;
+    }
+
+    .seat-low {
+      background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
+      color: #713f12;
+      border: 1px solid rgba(250, 204, 21, 0.3);
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3); }
+      50% { box-shadow: 0 2px 16px rgba(220, 38, 38, 0.6); }
+    }
+
+    .shadow-text {
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ========== SCROLL EDITOR ========== */
+    #tripContainer::-webkit-scrollbar { width: 5px; }
+    #tripContainer::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+    #tripContainer::-webkit-scrollbar-thumb { background: #f97316; border-radius: 8px; }
+
+    /* ========== BUTTONS ========== */
+    .btn-action {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.5px;
+    }
+    .btn-action:hover { transform: translateY(-2px); }
+    .btn-action:active { transform: translateY(0); }
+
+    /* ========== FOOTER CHIPS ========== */
+    .contact-chip {
+      background: linear-gradient(135deg, #f9731690 0%, #ea58090c 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ========== MODAL ========== */
+    #modal { backdrop-filter: blur(8px); }
+
+    /* ========== BACKGROUND OVERLAY ========== */
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(180deg, rgba(11, 17, 32, 0.3) 0%, transparent 30%, transparent 60%, rgba(11, 17, 32, 0.8) 100%),
+        linear-gradient(135deg, rgba(249, 115, 22, 0.08) 0%, transparent 50%, rgba(14, 165, 233, 0.06) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 150px rgba(0,0,0,0.5);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .deco-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(249, 115, 22, 0.5), rgba(14, 165, 233, 0.5), transparent);
+    }
+
+    .glow-text {
+      text-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+    }
+
+    /* ========== SCALED TRIPS CONTAINER ========== */
+/* Wrapper luar TIDAK diskalakan, hanya memberi ruang */
+#tripsOuterWrapper {
+  padding-top: 16px;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Kontainer kartu yang akan diskalakan */
+#displayTrips {
+  width: 100%;
+  transform-origin: top center;
+  will-change: transform;
+  overflow: visible !important; /* agar badge tetap terlihat */
+  box-sizing: border-box;
+}
+  </style>
+<base target="_blank">
+</head>
+<body class="min-h-screen p-4 md:p-8 flex items-center justify-center">
+
+  <div class="max-w-6xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+    <!-- ========== PANEL EDITOR ========== -->
+    <div class="bg-white/95 text-slate-800 p-6 md:p-8 rounded-3xl shadow-2xl h-fit border border-orange-100/50 backdrop-blur-sm">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
+          <span class="text-xl">⚙️</span>
+        </div>
+        <div>
+          <h2 class="text-2xl font-black text-orange-600 leading-tight">Trip Editor</h2>
+          <p class="text-xs text-slate-400 font-medium">Gaskuy Adventure</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5 tracking-wider">Bulan Trip</label>
+          <input type="text" id="inputMonth" value="APRIL" 
+            class="w-full border-2 border-slate-200 p-3 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none font-bold text-slate-700 transition-all">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold uppercase text-slate-500 mb-1.5 tracking-wider">Background</label>
+          <input type="file" id="bgUpload" accept="image/*" 
+            class="w-full text-xs mt-1 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:bg-orange-50 file:text-orange-700 file:font-semibold hover:file:bg-orange-100 cursor-pointer transition-colors">
+        </div>
+      </div>
+
+      <div id="tripContainer" class="space-y-5 max-h-[420px] overflow-y-auto pr-2 mb-6"></div>
+
+      <button onclick="addTripGroup()" 
+        class="w-full bg-slate-900 text-white py-3.5 rounded-xl font-bold hover:bg-slate-800 transition-all mb-5 flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20 group">
+        <span class="group-hover:scale-110 transition-transform">+</span>
+        <span>Tambah Kategori</span>
+      </button>
+
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="generatePreview()" 
+          class="btn-action bg-sky-500 text-white py-4 rounded-xl font-black hover:bg-sky-600 shadow-lg shadow-sky-500/25 flex items-center justify-center gap-2">
+          <span>🔍</span> PREVIEW
+        </button>
+        <button onclick="downloadImage()" 
+          class="btn-action bg-gradient-to-r from-orange-500 to-orange-600 text-white py-4 rounded-xl font-black hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2">
+          <span>⬇️</span> DOWNLOAD PNG
+        </button>
+      </div>
+    </div>
+
+    <!-- ========== AREA PREVIEW (CANVAS) ========== -->
+    <div class="sticky top-8 flex flex-col items-center">
+      <div class="flex items-center gap-2 mb-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.6)]"></span>
+        <p class="text-sm text-slate-300 font-medium">Live Preview • HD 1080×1920 output</p>
+      </div>
+
+      <div id="captureArea" class="story-canvas flex flex-col items-center text-white relative">
+        <!-- Background dinamis -->
+        <div id="previewBg" class="absolute inset-0 bg-cover bg-center transition-all duration-700" 
+          style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000');"></div>
+
+        <div class="bg-overlay"></div>
+        <div class="vignette"></div>
+
+        <!-- Konten utama -->
+        <div class="relative z-10 w-full h-full flex flex-col items-center px-7 py-7">
+
+          <!-- Logo & Tagline -->
+          <div class="flex flex-col items-center mb-2 flex-shrink-0">
+            <img id="previewLogo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsR0si4YhU0569F6HM-p8vl3-MjjbN1j00U_u7TZ2jG7FiNpWxfDmdJjVMz-k-5k78Y_WtPDfI12SGtRjT847hfZqpamBXj538tRTFrtVK4twPzHjWcR0WYg4wG0Rt2sEnJ0uV06q4rUHq-A922IujRFlRy-Igj-jlrnfCTgUHzi_O5wf-g-tIAy4PDi09/s1600/LOGO%20GSKY.png" alt="Gaskuy Adventure" 
+              class="h-14 mb-1 drop-shadow-lg" onerror="this.style.display='none'">
+            <p class="italic text-[10px] tracking-[0.4em] font-semibold uppercase text-orange-200/90 shadow-text">
+              Escape to Nature
+            </p>
+            <p class="text-[7px] text-white-200/90 shadow-text">
+              Tentang Rasa Cukup, Kebersamaan, dan Kembali ke Alam
+            </p>
+          </div>
+
+          <div class="deco-line w-24 mb-4 opacity-60 flex-shrink-0"></div>
+
+          <!-- Judul utama -->
+          <h1 class="text-[2.5rem] font-black italic tracking-tight mb-4 shadow-text text-center leading-none glow-text flex-shrink-0">
+            UPDATE TRIP<br>
+            <span id="displayMonth" class="text-orange-400 not-italic text-3xl font-black rounded-full" style="background-color: #000d4850; padding-right: 15px; padding-left: 15px;">APRIL</span>
+          </h1>
+
+          <!-- Daftar kartu trip (dinamis, auto-scale) -->
+<!-- WRAPPER statis dengan padding-top untuk badge -->
+<div id="tripsOuterWrapper" class="w-full flex-shrink-0" style="padding-top: 16px;">
+  <div id="displayTrips" class="w-full space-y-4" style="transform-origin: top center;"></div>
+</div>
+
+
+          <!-- ========== FOOTER ========== -->
+    <!-- FOOTER ABSOLUT - selalu di bawah -->
+    <div id="storyFooter" class="absolute bottom-3 left-7 right-7" style="margin-top: 20px;">
+        <div class="flex justify-between items-center gap-3">
+            <div class="contact-chip flex items-center gap-2 text-white pl-1.5 pr-4 py-1.5 rounded-full">
+                <span class="bg-gradient-to-br from-orange-400 to-pink-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg">
+                    <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </span>
+                <span class="text-[11px] font-bold tracking-wide">@gaskuy_adventure</span>
+            </div>
+            <div class="contact-chip flex items-center gap-2 text-white pl-1.5 pr-4 py-1.5 rounded-full">
+                <span class="bg-emerald-500 text-white rounded-full w-7 h-7 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <svg class="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
+                        <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z"/>
+                    </svg>
+                </span>
+                <span class="text-[11px] font-bold tracking-wide">0882-9912-1348</span>
+            </div>
+        </div>
+        <div class="mt-3 w-full h-px bg-gradient-to-r from-transparent via-orange-400/40 to-transparent"></div>
+        <p class="text-center text-[9px] text-white/30 mt-2 tracking-widest uppercase font-medium">Gaskuy Adventure © 2026</p>
+    </div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 p-6">
+    <div class="max-w-sm w-full">
+      <div id="modalContent" class="rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl"></div>
+      <button onclick="closeModal()" class="w-full mt-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold py-3 rounded-xl hover:bg-white/20 transition">TUTUP</button>
+    </div>
+  </div>
+
+  <script>
+    let trips = [
+      {
+        title: 'OPEN TRIP CAMP',
+        date: '24 - 26 APRIL',
+        items: [
+          { name: 'Gunung Ciremai (Via Apuy)', seat: '4 SEAT' },
+          { name: 'Gunung Gede (Via Putri)', seat: '5 SEAT' },
+          { name: 'Gunung Lawu (Via Candi Cetho)', seat: '6 SEAT' },
+          { name: 'Gunung Merbabu (Via Selo)', seat: '3 SEAT' },
+          { name: 'Gunung Merbabu (Via Suwanting)', seat: 'PENUH' },
+          { name: 'Gunung Merbabu (Thekelan)', seat: '2 SEAT' },
+          { name: 'Gunung Prau (Via Patak Banteng)', seat: '7 SEAT' },
+          { name: 'Gunung Prau (Via Wates)', seat: '4 SEAT' },
+          { name: 'Gunung Raung (Via Kalibaru)', seat: '5 SEAT' },
+          { name: 'Gunung Slamet (Via Bambangan)', seat: '6 SEAT' },
+          { name: 'Gunung Slamet (Via Permadi Guci)', seat: '3 SEAT' },
+          { name: 'Gunung Sindoro (Via Alang-alang)', seat: '4 SEAT' },
+          { name: 'Gunung Sindoro (Via Kledung)', seat: '2 SEAT' },
+          { name: 'Gunung Sumbing (Via Garung)', seat: '5 SEAT' },
+          { name: 'Gunung Sumbing (Via Gajah Mungkur)', seat: '6 SEAT' }
+        ]
+      }
+    ];
+
+    function renderInputs() {
+      const container = document.getElementById('tripContainer');
+      container.innerHTML = '';
+
+      trips.forEach((trip, tIdx) => {
+        const card = document.createElement('div');
+        card.className = "p-5 bg-slate-50 rounded-2xl border-2 border-slate-200 relative hover:border-orange-300 transition-all hover:shadow-md";
+        card.innerHTML = `
+          <button onclick="removeTrip(${tIdx})" class="absolute top-3 right-3 text-red-500 hover:text-red-700 font-bold text-[10px] bg-white px-2.5 py-1 rounded-full shadow-sm border border-red-100 hover:border-red-300 transition">HAPUS GRUP</button>
+
+          <div class="grid grid-cols-2 gap-3 mb-4 pr-16">
+            <div>
+              <label class="text-[9px] font-bold uppercase text-slate-400 mb-1 block">Kategori</label>
+              <input type="text" oninput="updateTripData(${tIdx}, 'title', this.value)" value="${escapeHtml(trip.title)}" 
+                class="font-bold text-sm border-b-2 border-orange-300 bg-transparent uppercase outline-none placeholder-slate-400 w-full pb-1 focus:border-orange-500 transition-colors" placeholder="Nama Kategori">
+            </div>
+            <div>
+              <label class="text-[9px] font-bold uppercase text-slate-400 mb-1 block">Tanggal</label>
+              <input type="text" oninput="updateTripData(${tIdx}, 'date', this.value)" value="${escapeHtml(trip.date)}" 
+                class="text-xs border-b border-slate-300 bg-transparent outline-none placeholder-slate-400 w-full pb-1 focus:border-orange-400 transition-colors" placeholder="Tanggal">
+            </div>
+          </div>
+
+          <div class="space-y-2" id="items-${tIdx}">
+            <div class="grid grid-cols-12 gap-2 mb-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <div class="col-span-8">Destinasi</div>
+              <div class="col-span-3">Status</div>
+            </div>
+            ${trip.items.map((item, iIdx) => `
+              <div class="grid grid-cols-12 gap-2 items-center group">
+                <input type="text" placeholder="Nama Gunung" oninput="updateItemData(${tIdx}, ${iIdx}, 'name', this.value)" value="${escapeHtml(item.name)}" 
+                  class="col-span-8 text-xs border border-slate-200 p-2 rounded-lg focus:border-orange-400 focus:ring-2 focus:ring-orange-500/10 outline-none transition-all bg-white">
+                <input type="text" placeholder="Sisa" oninput="updateItemData(${tIdx}, ${iIdx}, 'seat', this.value)" value="${escapeHtml(item.seat)}" 
+                  class="col-span-3 text-xs border border-orange-200 p-2 rounded-lg bg-orange-50/50 font-bold text-orange-900 focus:border-orange-400 focus:ring-2 focus:ring-orange-500/10 outline-none transition-all">
+                <button onclick="removeItem(${tIdx}, ${iIdx})" 
+                  class="col-span-1 text-red-400 font-bold hover:text-red-600 hover:bg-red-50 rounded-lg h-8 transition flex items-center justify-center">×</button>
+              </div>
+            `).join('')}
+          </div>
+          <button onclick="addItem(${tIdx})" class="mt-4 text-xs font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1.5 hover:gap-2 transition-all">
+            <span class="bg-sky-100 text-sky-600 rounded-full w-5 h-5 flex items-center justify-center text-[10px]">+</span>
+            <span>Tambah Destinasi</span>
+          </button>
+        `;
+        container.appendChild(card);
+      });
+      updatePreview();
+    }
+
+    function escapeHtml(text) {
+      return String(text).replace(/[&<>"]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        if (m === '"') return '&quot;';
+        return m;
+      });
+    }
+
+    function getSeatClass(seatText) {
+      const text = String(seatText).toUpperCase().trim();
+      if (text === 'PENUH' || text === '0' || text === '0 SEAT') return 'seat-full';
+      const match = text.match(/\d+/);
+      if (match) {
+        const num = parseInt(match[0]);
+        if (num <= 3) return 'seat-low';
+      }
+      return 'seat-available';
+    }
+
+    // ========== AUTO SCALE LOGIC ==========
+    function updatePreview() {
+      document.getElementById('displayMonth').innerText = document.getElementById('inputMonth').value || 'APRIL';
+
+      const display = document.getElementById('displayTrips');
+      display.innerHTML = '';
+      display.style.transform = 'none';
+
+    trips.forEach(trip => {
+      // 1. Buat elemen wrapper baru
+      const cardWrapper = document.createElement('div');
+      cardWrapper.className = "relative w-full flex-shrink-0";
+      // Kita beri ruang atas 11px, dan pindahkan jarak antar kartu ke wrapper
+      cardWrapper.style.paddingTop = "11px";
+      cardWrapper.style.marginBottom = "20px";
+
+      cardWrapper.innerHTML = `
+        <div class="category-badge" style="top: 0;">${escapeHtml(trip.title)}</div>
+        
+        <div class="trip-card text-left" style="margin-bottom: 0;">
+          <div class="flex justify-between items-center mb-3 border-b border-white/10 pb-2 mt-2">
+            <span class="text-[11px] font-bold tracking-tight flex items-center gap-1.5 text-orange-200">
+              <span class="text-orange-400">📅</span> ${escapeHtml(trip.date)}
+            </span>
+            <span class="text-[11px] font-black uppercase tracking-widest text-white/40">Sisa Seat</span>
+          </div>
+          <ul class="space-y-2.5">
+            ${trip.items.map(item => `
+              <li class="flex justify-between items-center gap-3">
+                <span class="text-[10.5px] font-medium tracking-wide truncate max-w-[240px] text-slate-100 leading-tight">• ${escapeHtml(item.name)}</span>
+                <div class="seat-box ${getSeatClass(item.seat)}">${escapeHtml(item.seat) || '0'}</div>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `;
+      display.appendChild(cardWrapper);
+    });
+
+      // Hitung dan apply scale setelah render
+      requestAnimationFrame(() => {
+        applyAutoScale();
+      });
+    }
+
+function applyAutoScale() {
+  const canvas = document.getElementById('captureArea');
+  const outerWrapper = document.getElementById('tripsOuterWrapper');
+  const tripsContainer = document.getElementById('displayTrips');
+  const contentWrapper = canvas.querySelector('.relative.z-10');
+  const footer = document.getElementById('storyFooter');
+  const h1 = contentWrapper.querySelector('h1');
+
+  // Reset dulu biar ukuran natural bisa diukur
+  tripsContainer.style.transform = 'none';
+  tripsContainer.style.maxHeight = 'none';
+  outerWrapper.style.maxHeight = 'none';
+  outerWrapper.style.marginBottom = '0';
+
+  const canvasRect = canvas.getBoundingClientRect();
+  const canvasHeight = canvasRect.height;          // 800px
+  const headerBottom = h1.getBoundingClientRect().bottom - canvasRect.top;
+  const footerHeight = footer.offsetHeight;
+  const footerMarginBottom = 28;                  // bottom-7
+  const gap = 16;                                 // jarak antara header & kartu
+
+  const footerTop = canvasHeight - footerMarginBottom - footerHeight;
+  // Ruang yang tersedia untuk outerWrapper (termasuk padding-top)
+  const availableForWrapper = footerTop - headerBottom - gap;
+
+  // Natural height dari konten kartu saja (tanpa padding wrapper)
+  const naturalHeight = tripsContainer.scrollHeight;
+
+  // Padding wrapper yang tetap (tidak di-scale)
+  const wrapperPaddingTop = 16;
+
+  if (naturalHeight > 0 && naturalHeight > (availableForWrapper - wrapperPaddingTop)) {
+    const availableForCards = availableForWrapper - wrapperPaddingTop;
+    const scale = availableForCards / naturalHeight;
+
+    // Terapkan scale pada tripsContainer
+    tripsContainer.style.transform = `scale(${scale})`;
+    tripsContainer.style.transformOrigin = 'top center';
+
+    // Batasi tinggi outer wrapper agar tidak meluber ke footer
+    outerWrapper.style.maxHeight = availableForWrapper + 'px';
+    outerWrapper.style.marginBottom = '0';
+  } else {
+    // Konten cukup pendek, tidak perlu scale
+    tripsContainer.style.transform = 'none';
+    outerWrapper.style.maxHeight = 'none';
+  }
+}
+
+    function addTripGroup() {
+      trips.push({ 
+        title: 'ONE DAY TRIP', 
+        date: '24 & 26 APRIL', 
+        items: [{ name: 'Nama Destinasi', seat: '6 SEAT' }] 
+      });
+      renderInputs();
+    }
+
+    function removeTrip(index) {
+      if (trips.length <= 1) return alert('Minimal satu kategori trip diperlukan.');
+      trips.splice(index, 1);
+      renderInputs();
+    }
+
+    function addItem(tIdx) {
+      trips[tIdx].items.push({ name: '', seat: '' });
+      renderInputs();
+    }
+
+    function removeItem(tIdx, iIdx) {
+      if (trips[tIdx].items.length <= 1) return alert('Setiap kategori minimal punya satu destinasi.');
+      trips[tIdx].items.splice(iIdx, 1);
+      renderInputs();
+    }
+
+    function updateTripData(index, field, value) {
+      trips[index][field] = value;
+      updatePreview();
+    }
+
+    function updateItemData(tIdx, iIdx, field, value) {
+      trips[tIdx].items[iIdx][field] = value;
+      updatePreview();
+    }
+
+    document.getElementById('bgUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        document.getElementById('previewBg').style.backgroundImage = `url(${ev.target.result})`;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('inputMonth').addEventListener('input', updatePreview);
+
+    // Re-scale saat resize window
+    window.addEventListener('resize', () => {
+      requestAnimationFrame(applyAutoScale);
+    });
+
+    function closeModal() {
+      document.getElementById('modal').classList.replace('flex', 'hidden');
+    }
+
+async function generatePreview() {
+  const node = document.getElementById('captureArea');
+  const origOverflow = node.style.overflow;
+  node.style.overflow = 'visible';
+  try {
+    const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 2, quality: 0.95 });
+    const img = new Image();
+    img.src = dataUrl;
+    img.className = "w-full rounded-lg";
+    document.getElementById('modalContent').innerHTML = '';
+    document.getElementById('modalContent').appendChild(img);
+    document.getElementById('modal').classList.replace('hidden', 'flex');
+  } finally {
+    node.style.overflow = origOverflow;
+  }
+}
+
+async function downloadImage() {
+  const node = document.getElementById('captureArea');
+  const origOverflow = node.style.overflow;
+  node.style.overflow = 'visible';
+  try {
+    const dataUrl = await htmlToImage.toPng(node, { pixelRatio: 3, quality: 1.0 });
+    const link = document.createElement('a');
+    link.download = `Trip-Update-${document.getElementById('inputMonth').value || 'TRIP'}.png`;
+    link.href = dataUrl;
+    link.click();
+  } finally {
+    node.style.overflow = origOverflow;
+  }
+}
+
+    renderInputs();
+  </script>
+</body>
+</html>
