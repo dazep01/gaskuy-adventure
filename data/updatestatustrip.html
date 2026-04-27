@@ -431,12 +431,23 @@ async function downloadImage() {
 
   toggleLoader(true);
 
+  // --- LANGKAH FIX BUG ROUNDED ---
+  // Simpan gaya asli
+  const originalRadius = node.style.borderRadius;
+  const originalShadow = node.style.boxShadow;
+  
+  // Paksa jadi kotak sempurna untuk hasil unduhan
+  node.style.borderRadius = '0';
+  node.style.boxShadow = 'none';
+
   try {
     await new Promise(r => setTimeout(r, 200));
 
     const dataUrl = await htmlToImage.toPng(node, {
-      pixelRatio: 3, // Kualitas lebih tinggi untuk download
-      cacheBust: true
+      pixelRatio: 3,
+      cacheBust: true,
+      // Pastikan background color di-set agar tidak transparan di sudut
+      backgroundColor: '#0b1120' 
     });
 
     const month = document.getElementById('inputMonth').value || 'TRIP';
@@ -449,9 +460,13 @@ async function downloadImage() {
     console.error("Detail Error:", error);
     alert("Gagal Download: " + error.message);
   } finally {
+    // Kembalikan tampilan di web agar tetap cantik (rounded)
+    node.style.borderRadius = originalRadius;
+    node.style.boxShadow = originalShadow;
     toggleLoader(false);
   }
 }
+
 
 // Fungsi render dan data lainnya tetap sama seperti sebelumnya...
 // (Pastikan sisa fungsi seperti addTripGroup, renderInputs, dll ada di bawah sini)
