@@ -261,7 +261,7 @@
 
           <!-- Logo & Tagline -->
           <div class="flex flex-col items-center mb-2 flex-shrink-0">
-            <img id="previewLogo" crossorigin="anonymous" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsR0si4YhU0569F6HM-p8vl3-MjjbN1j00U_u7TZ2jG7FiNpWxfDmdJjVMz-k-5k78Y_WtPDfI12SGtRjT847hfZqpamBXj538tRTFrtVK4twPzHjWcR0WYg4wG0Rt2sEnJ0uV06q4rUHq-A922IujRFlRy-Igj-jlrnfCTgUHzi_O5wf-g-tIAy4PDi09/s1600/LOGO%20GSKY.png" alt="Gaskuy Adventure" 
+            <img id="previewLogo" crossorigin="anonymous" src="https://i.ibb.co.com/whW1vJnS/LOGO-GSKY.png" alt="Gaskuy Adventure" 
               class="h-14 mb-1 drop-shadow-lg" onerror="this.style.display='none'">
             <p class="italic text-[10px] tracking-[0.4em] font-semibold uppercase text-orange-200/90 shadow-text">
               Escape to Nature
@@ -361,6 +361,100 @@
         ]
       }
     ];
+
+// 1. Pastikan fungsi pendukung ada di paling atas agar terbaca duluan
+const toggleLoader = (show) => {
+  const loader = document.getElementById('loader');
+  if (!loader) return; // Mencegah error jika HTML loader lupa dicopy
+  if (show) {
+    loader.classList.remove('hidden');
+    loader.classList.add('flex');
+  } else {
+    loader.classList.remove('flex');
+    loader.classList.add('hidden');
+  }
+};
+
+// Fungsi pembantu untuk membersihkan teks
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"]/g, (m) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
+  }[m]));
+}
+
+// 2. Fungsi Utama Preview
+async function generatePreview() {
+  const node = document.getElementById('captureArea');
+  const modalContent = document.getElementById('modalContent');
+  
+  if (!node || !modalContent) {
+    alert("Error: Elemen captureArea atau modal tidak ditemukan!");
+    return;
+  }
+
+  toggleLoader(true); // Munculkan spinner
+
+  try {
+    // Beri waktu 200ms agar browser merender spinner-nya dulu
+    await new Promise(r => setTimeout(r, 200));
+
+    // Pastikan memanggil 'htmlToImage' dengan benar
+    const dataUrl = await htmlToImage.toPng(node, {
+      pixelRatio: 2,
+      cacheBust: true,
+      skipFonts: false,
+    });
+
+    if (!dataUrl) throw new Error("Gagal menghasilkan gambar (DataURL kosong)");
+
+    const img = new Image();
+    img.src = dataUrl;
+    img.className = "w-full rounded-lg";
+    
+    modalContent.innerHTML = '';
+    modalContent.appendChild(img);
+    
+    document.getElementById('modal').classList.replace('hidden', 'flex');
+
+  } catch (error) {
+    console.error("Detail Error:", error);
+    alert("Gagal Preview: " + error.message);
+  } finally {
+    toggleLoader(false); // Matikan spinner
+  }
+}
+
+// 3. Fungsi Utama Download
+async function downloadImage() {
+  const node = document.getElementById('captureArea');
+  if (!node) return;
+
+  toggleLoader(true);
+
+  try {
+    await new Promise(r => setTimeout(r, 200));
+
+    const dataUrl = await htmlToImage.toPng(node, {
+      pixelRatio: 3, // Kualitas lebih tinggi untuk download
+      cacheBust: true
+    });
+
+    const month = document.getElementById('inputMonth').value || 'TRIP';
+    const link = document.createElement('a');
+    link.download = `Gaskuy-Update-${month}.png`;
+    link.href = dataUrl;
+    link.click();
+
+  } catch (error) {
+    console.error("Detail Error:", error);
+    alert("Gagal Download: " + error.message);
+  } finally {
+    toggleLoader(false);
+  }
+}
+
+// Fungsi render dan data lainnya tetap sama seperti sebelumnya...
+// (Pastikan sisa fungsi seperti addTripGroup, renderInputs, dll ada di bawah sini)
 
     function renderInputs() {
       const container = document.getElementById('tripContainer');
@@ -582,78 +676,6 @@ function applyAutoScale() {
     function closeModal() {
       document.getElementById('modal').classList.replace('flex', 'hidden');
     }
-
-// Fungsi Helper untuk memunculkan/menghilangkan loader
-const toggleLoader = (show) => {
-  const loader = document.getElementById('loader');
-  if (show) {
-    loader.classList.replace('hidden', 'flex');
-  } else {
-    loader.classList.replace('flex', 'hidden');
-  }
-};
-
-async function generatePreview() {
-  const node = document.getElementById('captureArea');
-  if (!node) return;
-
-  toggleLoader(true); // Tampilkan loader
-
-  try {
-    // Beri sedikit delay (100ms) agar browser sempat merender UI loader
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    const dataUrl = await htmlToImage.toPng(node, { 
-      pixelRatio: 2, 
-      quality: 0.95,
-      cacheBust: true 
-    });
-
-    const img = new Image();
-    img.src = dataUrl;
-    img.className = "w-full rounded-lg";
-    
-    document.getElementById('modalContent').innerHTML = '';
-    document.getElementById('modalContent').appendChild(img);
-    document.getElementById('modal').classList.replace('hidden', 'flex');
-    
-  } catch (error) {
-    console.error('Error:', error);
-    alert("Gagal membuat preview: " + error.message);
-  } finally {
-    toggleLoader(false); // Selesai! Tutup loader
-  }
-}
-
-async function downloadImage() {
-  const node = document.getElementById('captureArea');
-  if (!node) return;
-
-  toggleLoader(true); // Tampilkan loader
-
-  try {
-    await new Promise(resolve => setTimeout(resolve, 100));
-
-    const dataUrl = await htmlToImage.toPng(node, { 
-      pixelRatio: 3, // High quality untuk download
-      quality: 1.0,
-      cacheBust: true 
-    });
-
-    const link = document.createElement('a');
-    const month = document.getElementById('inputMonth').value || 'TRIP';
-    link.download = `Gaskuy-Trip-${month}.png`;
-    link.href = dataUrl;
-    link.click();
-    
-  } catch (error) {
-    console.error('Error:', error);
-    alert("Gagal download gambar: " + error.message);
-  } finally {
-    toggleLoader(false); // Selesai! Tutup loader
-  }
-}
-
 
     renderInputs();
   </script>
