@@ -2,13 +2,14 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Trip Story Generator Pro • Gaskuy Adventure</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.1/html-to-image.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap');
 
-    /* ========== RESET & BASE ========== */
     * { font-family: 'Poppins', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -23,11 +24,6 @@
       padding: 1rem;
     }
 
-    @media (min-width: 768px) {
-      body { padding: 2rem; }
-    }
-
-    /* ========== LAYOUT UTAMA ========== */
     .container-main {
       max-width: 1152px;
       width: 100%;
@@ -54,10 +50,6 @@
       height: fit-content;
       border: 1px solid rgba(255, 237, 213, 0.5);
       backdrop-filter: blur(4px);
-    }
-
-    @media (min-width: 768px) {
-      .editor-panel { padding: 2rem; }
     }
 
     .editor-header {
@@ -141,7 +133,6 @@
       color: #c2410c;
       font-weight: 600;
       cursor: pointer;
-      transition: background-color 0.2s;
     }
 
     .file-input:hover::-webkit-file-upload-button {
@@ -162,7 +153,6 @@
     #tripContainer::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
     #tripContainer::-webkit-scrollbar-thumb { background: #f97316; border-radius: 8px; }
 
-    /* ========== BUTTONS ========== */
     .btn-base {
       width: 100%;
       border: none;
@@ -230,6 +220,20 @@
       align-items: center;
     }
 
+    /* --- WRAPPER RESPONSIF UNTUK IPHONE --- */
+    .canvas-viewport {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow: hidden;
+    }
+
+    .canvas-scaler {
+      transform-origin: top center;
+      will-change: transform;
+    }
+
     .status-badge {
       display: flex;
       align-items: center;
@@ -262,10 +266,11 @@
       font-weight: 500;
     }
 
-    /* ========== STORY CANVAS: 450x800 (9:16) ========== */
+    /* Canvas asli 450x800 – TIDAK di-scale */
     .story-canvas {
       width: 450px;
       height: 800px;
+      flex-shrink: 0;
       position: relative;
       overflow: hidden;
       background-color: #0f172a;
@@ -316,7 +321,6 @@
       padding: 1.75rem;
     }
 
-    /* Logo & Header */
     .header-canvas {
       display: flex;
       flex-direction: column;
@@ -378,7 +382,6 @@
       padding: 0 15px;
     }
 
-    /* ========== SCALED TRIPS CONTAINER ========== */
     #tripsOuterWrapper {
       width: 100%;
       flex-shrink: 0;
@@ -396,7 +399,6 @@
       gap: 1rem;
     }
 
-    /* ========== TRIP CARD ========== */
     .card-wrapper {
       position: relative;
       width: 100%;
@@ -415,10 +417,6 @@
       box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      position: relative;
-      overflow: visible;
-      flex-shrink: 0;
-      text-align: left;
     }
 
     .trip-card::before {
@@ -442,9 +440,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: white;
-      box-shadow: 
-        0 4px 15px rgba(249, 115, 22, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4), 0 0 0 1px rgba(255,255,255,0.1);
       z-index: 1000;
     }
 
@@ -453,7 +449,7 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       padding-bottom: 0.5rem;
       margin-top: 0.5rem;
     }
@@ -461,10 +457,6 @@
     .card-date {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: -0.025em;
-      display: flex;
-      align-items: center;
-      gap: 0.375rem;
       color: #fed7aa;
     }
 
@@ -475,7 +467,7 @@
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255,255,255,0.4);
     }
 
     .trip-list {
@@ -501,7 +493,6 @@
       text-overflow: ellipsis;
       max-width: 240px;
       color: #f1f5f9;
-      line-height: 1.25;
     }
 
     .seat-box {
@@ -513,30 +504,24 @@
       justify-content: center;
       font-size: 9px;
       font-weight: 800;
-      letter-spacing: 0.5px;
       text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-      transition: all 0.2s;
-      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
 
     .seat-available {
       background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
       color: #7c2d12;
-      border: 1px solid rgba(251, 146, 60, 0.3);
     }
 
     .seat-full {
       background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
       color: white;
-      border: 1px solid rgba(239, 68, 68, 0.4);
       animation: pulse-red 2s infinite;
     }
 
     .seat-low {
       background: linear-gradient(135deg, #fde047 0%, #facc15 100%);
       color: #713f12;
-      border: 1px solid rgba(250, 204, 21, 0.3);
     }
 
     @keyframes pulse-red {
@@ -544,13 +529,11 @@
       50% { box-shadow: 0 2px 16px rgba(220, 38, 38, 0.6); }
     }
 
-    /* ========== FOOTER CANVAS ========== */
     .footer-canvas {
       position: absolute;
       bottom: 0.75rem;
       left: 1.75rem;
       right: 1.75rem;
-      margin-top: 20px;
     }
 
     .contact-row {
@@ -561,10 +544,10 @@
     }
 
     .contact-chip {
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.56) 0%, rgba(234, 88, 9, 0.05) 100%);
+      background: linear-gradient(135deg, rgba(249,115,22,0.56) 0%, rgba(234,88,9,0.05) 100%);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -580,51 +563,39 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
 
     .icon-ig { background: linear-gradient(to bottom right, #fb923c, #ec4899); }
-    .icon-wa { 
-      background-color: #10b981;
-      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3);
-    }
+    .icon-wa { background-color: #10b981; }
 
     .chip-text {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.025em;
     }
 
     .footer-divider {
       margin-top: 0.75rem;
       width: 100%;
       height: 1px;
-      background: linear-gradient(to right, transparent, rgba(249, 115, 22, 0.4), transparent);
+      background: linear-gradient(to right, transparent, rgba(249,115,22,0.4), transparent);
     }
 
     .copyright {
       text-align: center;
       font-size: 9px;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255,255,255,0.3);
       margin-top: 0.5rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      font-weight: 500;
     }
 
-    /* ========== INPUT CARDS IN EDITOR ========== */
+    /* Input cards */
     .input-card {
       padding: 1.25rem;
       background-color: #f8fafc;
       border-radius: 1rem;
       border: 2px solid #e2e8f0;
       position: relative;
-      transition: all 0.2s;
-    }
-
-    .input-card:hover {
-      border-color: #fdba74;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
     .btn-remove-group {
@@ -640,12 +611,6 @@
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
       border: 1px solid #fee2e2;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-remove-group:hover {
-      color: #b91c1c;
-      border-color: #fecaca;
     }
 
     .input-card-header {
@@ -674,11 +639,7 @@
       text-transform: uppercase;
       outline: none;
       width: 100%;
-      padding-bottom: 0.25rem;
-      transition: border-color 0.2s;
     }
-
-    .input-title:focus { border-color: #f97316; }
 
     .input-date {
       font-size: 0.75rem;
@@ -687,11 +648,7 @@
       background: transparent;
       outline: none;
       width: 100%;
-      padding-bottom: 0.25rem;
-      transition: border-color 0.2s;
     }
-
-    .input-date:focus { border-color: #94a3b8; }
 
     .items-container {
       display: flex;
@@ -708,7 +665,6 @@
       font-weight: 700;
       color: #94a3b8;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
     .item-row {
@@ -726,10 +682,7 @@
       border-radius: 0.5rem;
       outline: none;
       background: white;
-      transition: all 0.2s;
     }
-
-    .input-item-name:focus { border-color: #fb923c; box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.1); }
 
     .input-item-seat {
       grid-column: span 3;
@@ -737,7 +690,7 @@
       border: 1px solid #fed7aa;
       padding: 0.5rem;
       border-radius: 0.5rem;
-      background-color: rgba(255, 247, 237, 0.5);
+      background-color: rgba(255,247,237,0.5);
       font-weight: 700;
       color: #7c2d12;
       outline: none;
@@ -755,10 +708,7 @@
       background: none;
       border: none;
       cursor: pointer;
-      transition: all 0.2s;
     }
-
-    .btn-remove-item:hover { color: #dc2626; background-color: #fef2f2; }
 
     .btn-add-item {
       margin-top: 1rem;
@@ -771,24 +721,9 @@
       background: none;
       border: none;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .btn-add-item:hover { color: #0369a1; }
-
-    .btn-add-item span:first-child {
-      background-color: #e0f2fe;
-      color: #0284c7;
-      border-radius: 9999px;
-      width: 1.25rem;
-      height: 1.25rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-    }
-
-    /* ========== MODAL ========== */
+    /* Modal & Loader */
     #modal {
       position: fixed;
       inset: 0;
@@ -800,79 +735,54 @@
       padding: 1.5rem;
       backdrop-filter: blur(8px);
     }
-
     #modal.flex { display: flex; }
-
-    .modal-container {
-      max-width: 24rem;
-      width: 100%;
-    }
-
-    #modalContent {
-      border-radius: 1rem;
-      overflow: hidden;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    }
-
+    .modal-container { max-width: 24rem; width: 100%; }
+    #modalContent { border-radius: 1rem; overflow: hidden; }
     #modalContent img { width: 100%; display: block; }
-
     .btn-close-modal {
       width: 100%;
       margin-top: 1rem;
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(255,255,255,0.1);
       backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255,255,255,0.2);
       color: white;
       font-weight: 700;
       padding: 0.75rem;
       border-radius: 0.75rem;
       cursor: pointer;
-      transition: background-color 0.2s;
     }
 
-    .btn-close-modal:hover { background-color: rgba(255, 255, 255, 0.2); }
-
-    /* ========== LOADER ========== */
     #loader {
       position: fixed;
       inset: 0;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0,0,0,0.6);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: all 0.3s;
     }
-
     #loader.flex { display: flex; }
-
     .loader-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
       padding: 2rem;
       border-radius: 1.5rem;
-      background-color: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      background-color: rgba(15,23,42,0.8);
+      border: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      color: white;
     }
-
     .spinner-container {
-      position: relative;
       width: 4rem;
       height: 4rem;
+      margin: 0 auto 1rem;
+      position: relative;
     }
-
     .spinner-bg {
       position: absolute;
       inset: 0;
-      border: 4px solid rgba(249, 115, 22, 0.2);
+      border: 4px solid rgba(249,115,22,0.2);
       border-radius: 9999px;
     }
-
     .spinner-active {
       position: absolute;
       inset: 0;
@@ -881,32 +791,7 @@
       border-radius: 9999px;
       animation: spin 1s linear infinite;
     }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .loader-text {
-      text-align: center;
-    }
-
-    .loader-text p:first-child {
-      color: white;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
-
-    .loader-text p:last-child {
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 10px;
-      margin-top: 0.25rem;
-      font-weight: 500;
-    }
-    
-    .hidden { display: none !important; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -916,11 +801,9 @@
     <!-- ========== PANEL EDITOR ========== -->
     <div class="editor-panel">
       <div class="editor-header">
-        <div class="editor-icon">
-          <span>⚙️</span>
-        </div>
+        <div class="editor-icon"><svg width="30" height="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none"><path fill="#ffecd480" d="M44.42 14.557c1.546-1.546 2.146-3.798.937-5.62c-.655-.986-1.574-2.156-2.856-3.438s-2.452-2.201-3.438-2.856c-1.822-1.21-4.074-.61-5.62.937L16.198 20.825c-.578.578-.974 1.312-1.053 2.126c-.133 1.381-.256 3.962.024 7.967a2.06 2.06 0 0 0 1.913 1.913c4.005.28 6.586.157 7.967.024c.814-.079 1.548-.475 2.126-1.053z"/><path fill="#ffffff" d="M28.555 4.225L14.077 18.703c-.983.983-1.761 2.338-1.918 3.96c-.15 1.561-.273 4.309.018 8.464a5.06 5.06 0 0 0 4.695 4.696c4.156.29 6.904.169 8.465.018c1.622-.157 2.977-.935 3.96-1.918l14.478-14.479A21.5 21.5 0 0 1 44.5 25c0 11.874-9.626 21.5-21.5 21.5S1.5 36.874 1.5 25S11.126 3.5 23 3.5c1.921 0 3.783.252 5.555.725"/><path fill="#ffecd4" d="M43.775 15.202c-1.083-1.72-2.655-3.79-4.92-6.056c-2.267-2.266-4.337-3.838-6.057-4.92l-3.649 3.647c1.517.84 3.67 2.308 6.17 4.808s3.967 4.653 4.807 6.17z"/></g></svg></div>
         <div class="editor-title">
-          <h2>Trip Editor</h2>
+          <h2>Status Trip Editor</h2>
           <p>Gaskuy Adventure</p>
         </div>
       </div>
@@ -945,10 +828,10 @@
 
       <div class="action-grid">
         <button onclick="generatePreview()" class="btn-base btn-preview">
-          <span>🔍</span> PREVIEW
+          <span><svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none" fill-rule="evenodd" clip-rule="evenodd"><path fill="#ffecd480" d="M13.924 1.501a2.5 2.5 0 1 1 .152 4.998l-6.31.192A1.16 1.16 0 0 0 6.69 7.765l-.19 6.311a2.5 2.5 0 1 1-4.998-.152l.194-6.357l.003-.072a6.16 6.16 0 0 1 5.87-5.8l6.356-.194Zm20.152 0a2.5 2.5 0 1 0-.152 4.998l6.31.192a1.16 1.16 0 0 1 1.075 1.074l.192 6.311a2.5 2.5 0 0 0 4.998-.152l-.194-6.357l-.003-.072a6.16 6.16 0 0 0-5.87-5.8zm-30.152 30a2.5 2.5 0 0 1 2.575 2.423l.192 6.311a1.16 1.16 0 0 0 1.074 1.074l6.311.192a2.5 2.5 0 1 1-.152 4.998l-6.356-.194l-.072-.003a6.16 6.16 0 0 1-5.801-5.87L1.5 34.077a2.5 2.5 0 0 1 2.423-2.575Zm40.152 0a2.5 2.5 0 0 0-2.575 2.423l-.192 6.311a1.16 1.16 0 0 1-1.074 1.074l-6.311.192a2.5 2.5 0 1 0 .152 4.998l6.356-.194l.072-.003a6.16 6.16 0 0 0 5.801-5.87l.194-6.356a2.5 2.5 0 0 0-2.423-2.575M5.718 22.623C8.06 15.003 15.387 9.5 24 9.5c8.614 0 15.94 5.503 18.283 13.123a4.7 4.7 0 0 1 0 2.754C39.94 32.997 32.613 38.5 24 38.5S8.06 32.997 5.718 25.377a4.7 4.7 0 0 1 0-2.753Z"/><path fill="#ffffff" d="M24 31a7 7 0 1 0 0-14a7 7 0 0 0 0 14"/></g></svg></span> PREVIEW
         </button>
         <button onclick="downloadImage()" class="btn-base btn-download">
-          <span>⬇️</span> DOWNLOAD PNG
+          <span><svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none"><path fill="#ffecd480" d="M30.923 23.191c1.666.276 3.178 1.268 3.893 2.934c.82 1.91.274 3.963-1.032 5.417a72 72 0 0 1-2.188 2.324c-1.828 1.862-3.289 3.038-4.387 3.781a5.67 5.67 0 0 1-6.418 0c-1.099-.743-2.56-1.92-4.387-3.781a72 72 0 0 1-2.19-2.325c-1.306-1.454-1.851-3.507-1.032-5.416c.715-1.667 2.228-2.66 3.895-2.934l.15-5.61c-3.706.093-6.52.254-8.526.407c-2.997.228-5.474 2.4-5.806 5.502C2.682 25.484 2.5 28.277 2.5 32s.182 6.516.395 8.51c.332 3.102 2.809 5.274 5.806 5.502c3.087.235 8.082.488 15.299.488s12.212-.253 15.299-.488c2.997-.228 5.474-2.4 5.806-5.502c.213-1.994.395-4.787.395-8.51s-.182-6.516-.395-8.51c-.332-3.102-2.809-5.274-5.806-5.502c-2.007-.153-4.82-.314-8.526-.407z"/><path fill="#ffffff" d="m27.999 26.044l-.441-16.427c-.035-1.291-.899-2.42-2.184-2.548a14 14 0 0 0-2.747 0c-1.286.129-2.15 1.257-2.185 2.549l-.44 16.426c-.794.02-1.489.044-2.096.072c-1.976.09-2.782 1.949-1.46 3.42c.57.636 1.262 1.376 2.1 2.229c1.71 1.744 3.02 2.785 3.926 3.398c.945.639 2.11.639 3.056 0c.906-.613 2.215-1.654 3.926-3.398a69 69 0 0 0 2.098-2.227c1.322-1.473.517-3.333-1.46-3.422c-.607-.028-1.3-.052-2.093-.072"/></g></svg></span> DOWNLOAD PNG
         </button>
       </div>
     </div>
@@ -960,59 +843,51 @@
         <p class="status-text">Live Preview • HD 1080×1920 output</p>
       </div>
 
-      <div id="captureArea" class="story-canvas">
-        <!-- Background dinamis -->
-        <div id="previewBg" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000');"></div>
+      <!-- WRAPPER RESPONSIF: scaling hanya untuk tampilan, tidak memengaruhi capture -->
+      <div class="canvas-viewport">
+        <div class="canvas-scaler" id="canvasScaler">
+          <div id="captureArea" class="story-canvas">
+            <div id="previewBg" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000');"></div>
+            <div class="bg-overlay"></div>
+            <div class="vignette"></div>
 
-        <div class="bg-overlay"></div>
-        <div class="vignette"></div>
-
-        <!-- Konten utama -->
-        <div class="content-canvas">
-
-          <!-- Logo & Tagline -->
-          <div class="header-canvas">
-            <img id="previewLogo" crossorigin="anonymous" src="https://i.ibb.co.com/whW1vJnS/LOGO-GSKY.png" alt="Gaskuy Adventure" 
-              class="logo-canvas" onerror="this.style.display='none'">
-            <p class="tagline-canvas">Escape to Nature</p>
-            <p class="sub-tagline-canvas">Tentang Rasa Cukup, Kebersamaan, dan Kembali ke Alam</p>
-          </div>
-
-          <div class="deco-line"></div>
-
-          <!-- Judul utama -->
-          <h1 class="title-canvas">
-            UPDATE TRIP<br>
-            <span id="displayMonth">APRIL</span>
-          </h1>
-
-          <!-- Daftar kartu trip (dinamis, auto-scale) -->
-          <div id="tripsOuterWrapper">
-            <div id="displayTrips"></div>
-          </div>
-
-          <!-- ========== FOOTER ========== -->
-          <div id="storyFooter" class="footer-canvas">
-            <div class="contact-row">
-              <div class="contact-chip">
-                <span class="chip-icon icon-ig">
-                  <svg style="width: 0.875rem; height: 0.875rem; fill: white;" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-                  </svg>
-                </span>
-                <span class="chip-text">@gaskuy_adventure</span>
+            <div class="content-canvas">
+              <div class="header-canvas">
+                <img id="previewLogo" crossorigin="anonymous" src="https://i.ibb.co.com/whW1vJnS/LOGO-GSKY.png" alt="Gaskuy Adventure" class="logo-canvas" onerror="this.style.display='none'">
+                <p class="tagline-canvas">Escape to Nature</p>
+                <p class="sub-tagline-canvas">Tentang Rasa Cukup, Kebersamaan, dan Kembali ke Alam</p>
               </div>
-              <div class="contact-chip">
-                <span class="chip-icon icon-wa">
-                  <svg style="width: 0.875rem; height: 0.875rem; fill: white;" viewBox="0 0 24 24">
-                    <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z"/>
-                  </svg>
-                </span>
-                <span class="chip-text">0882-9912-1348</span>
+
+              <div class="deco-line"></div>
+
+              <h1 class="title-canvas">
+                UPDATE TRIP<br>
+                <span id="displayMonth">APRIL</span>
+              </h1>
+
+              <div id="tripsOuterWrapper">
+                <div id="displayTrips"></div>
+              </div>
+
+              <div id="storyFooter" class="footer-canvas">
+                <div class="contact-row">
+                  <div class="contact-chip">
+                    <span class="chip-icon icon-ig">
+                      <svg style="width:0.875rem;height:0.875rem;fill:white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </span>
+                    <span class="chip-text">@gaskuy_adventure</span>
+                  </div>
+                  <div class="contact-chip">
+                    <span class="chip-icon icon-wa">
+                      <svg style="width:0.875rem;height:0.875rem;fill:white" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.58.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1 11.36 11.36 0 00.57 3.58 1 1 0 01-.25 1.01l-2.2 2.2z"/></svg>
+                    </span>
+                    <span class="chip-text">0882-9912-1348</span>
+                  </div>
+                </div>
+                <div class="footer-divider"></div>
+                <p class="copyright">Gaskuy Adventure © 2026</p>
               </div>
             </div>
-            <div class="footer-divider"></div>
-            <p class="copyright">Gaskuy Adventure © 2026</p>
           </div>
         </div>
       </div>
@@ -1042,6 +917,7 @@
   </div>
 
   <script>
+    // State aplikasi
     let trips = [
       {
         title: 'OPEN TRIP CAMP',
@@ -1068,52 +944,50 @@
 
     const toggleLoader = (show) => {
       const loader = document.getElementById('loader');
-      if (!loader) return;
-      if (show) {
-        loader.classList.add('flex');
-      } else {
-        loader.classList.remove('flex');
-      }
+      if (loader) loader.classList.toggle('flex', show);
     };
 
     function escapeHtml(text) {
-      return String(text).replace(/[&<>"]/g, (m) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'
-      }[m]));
+      return String(text).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
     }
 
+    // ========== SCALING RESPONSIF UNTUK IPHONE ==========
+    function applyCanvasScale() {
+      const scaler = document.getElementById('canvasScaler');
+      if (!scaler) return;
+      const CANVAS_WIDTH = 450;
+      const padding = 16; // ruang horizontal
+      const maxWidth = window.innerWidth - padding * 2;
+      const scale = Math.min(1, maxWidth / CANVAS_WIDTH);
+      scaler.style.transform = `scale(${scale})`;
+    }
+
+    // ========== GENERATE & DOWNLOAD ==========
     async function generatePreview() {
       const node = document.getElementById('captureArea');
       const modalContent = document.getElementById('modalContent');
-      
       if (!node || !modalContent) {
         alert("Error: Elemen captureArea atau modal tidak ditemukan!");
         return;
       }
 
       toggleLoader(true);
-
       try {
         await new Promise(r => setTimeout(r, 200));
-
         const dataUrl = await htmlToImage.toPng(node, {
           pixelRatio: 2,
           cacheBust: true,
           skipFonts: false,
         });
-
-        if (!dataUrl) throw new Error("Gagal menghasilkan gambar (DataURL kosong)");
+        if (!dataUrl) throw new Error("Gagal menghasilkan gambar");
 
         const img = new Image();
         img.src = dataUrl;
-        
         modalContent.innerHTML = '';
         modalContent.appendChild(img);
-        
         document.getElementById('modal').classList.add('flex');
-
       } catch (error) {
-        console.error("Detail Error:", error);
+        console.error(error);
         alert("Gagal Preview: " + error.message);
       } finally {
         toggleLoader(false);
@@ -1125,30 +999,25 @@
       if (!node) return;
 
       toggleLoader(true);
-
       const originalRadius = node.style.borderRadius;
       const originalShadow = node.style.boxShadow;
-      
       node.style.borderRadius = '0';
       node.style.boxShadow = 'none';
 
       try {
         await new Promise(r => setTimeout(r, 200));
-
         const dataUrl = await htmlToImage.toPng(node, {
           pixelRatio: 3,
           cacheBust: true,
-          backgroundColor: '#0b1120' 
+          backgroundColor: '#0b1120'
         });
-
         const month = document.getElementById('inputMonth').value || 'TRIP';
         const link = document.createElement('a');
         link.download = `Gaskuy-Update-${month}.png`;
         link.href = dataUrl;
         link.click();
-
       } catch (error) {
-        console.error("Detail Error:", error);
+        console.error(error);
         alert("Gagal Download: " + error.message);
       } finally {
         node.style.borderRadius = originalRadius;
@@ -1157,6 +1026,7 @@
       }
     }
 
+    // ========== EDITOR LOGIC ==========
     function renderInputs() {
       const container = document.getElementById('tripContainer');
       container.innerHTML = '';
@@ -1218,7 +1088,6 @@
 
     function updatePreview() {
       document.getElementById('displayMonth').innerText = document.getElementById('inputMonth').value || 'APRIL';
-
       const display = document.getElementById('displayTrips');
       display.innerHTML = '';
       display.style.transform = 'none';
@@ -1226,15 +1095,11 @@
       trips.forEach(trip => {
         const cardWrapper = document.createElement('div');
         cardWrapper.className = "card-wrapper";
-
         cardWrapper.innerHTML = `
           <div class="category-badge">${escapeHtml(trip.title)}</div>
-          
           <div class="trip-card">
             <div class="card-header">
-              <span class="card-date">
-                <span>📅</span> ${escapeHtml(trip.date)}
-              </span>
+              <span class="card-date"><span><svg width="15" height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><g fill="none"><path fill="#ffecd4" d="M24 46.5c-7.632 0-12.948-.485-16.147-.911c-2.862-.382-5.068-2.554-5.479-5.419c-.417-2.91-.874-7.506-.874-13.67s.457-10.76.874-13.67c.41-2.864 2.617-5.037 5.48-5.418C11.051 6.985 16.367 6.5 24 6.5c7.632 0 12.948.485 16.147.912c2.862.381 5.068 2.554 5.479 5.418c.417 2.91.874 7.506.874 13.67s-.457 10.76-.874 13.67c-.41 2.864-2.617 5.037-5.48 5.419c-3.198.426-8.514.911-16.146.911"/><path fill="#ea580c" d="M33.5 14.518q-.754-.001-1.336-.037c-2.27-.133-3.547-2.002-3.618-3.918a69 69 0 0 1 0-5.091c.07-1.916 1.348-3.785 3.618-3.918q.582-.035 1.336-.036t1.336.036c2.27.133 3.547 2.002 3.618 3.918a69 69 0 0 1 0 5.091c-.07 1.916-1.348 3.785-3.618 3.918a23 23 0 0 1-1.336.037m-19 0q-.754-.001-1.336-.037c-2.27-.133-3.547-2.002-3.618-3.918a69 69 0 0 1 0-5.091c.07-1.916 1.348-3.785 3.618-3.918q.582-.035 1.336-.036t1.336.036c2.27.133 3.547 2.002 3.618 3.918a69 69 0 0 1 0 5.091c-.07 1.916-1.348 3.785-3.618 3.918a23 23 0 0 1-1.336.037"/><path fill="#ea580c" fill-rule="evenodd" d="M17 25a2 2 0 0 0-2-2h-4a2 2 0 1 0 0 4h4a2 2 0 0 0 2-2m5-2a2 2 0 1 0 0 4h4a2 2 0 1 0 0-4zm11 0a2 2 0 1 0 0 4h4a2 2 0 1 0 0-4zM22 33a2 2 0 1 0 0 4h4a2 2 0 1 0 0-4zm9 2a2 2 0 0 1 2-2h4a2 2 0 1 1 0 4h-4a2 2 0 0 1-2-2m-16-2a2 2 0 1 1 0 4h-4a2 2 0 1 1 0-4z" clip-rule="evenodd"/></g></svg></span> ${escapeHtml(trip.date)}</span>
               <span class="card-label">Sisa Seat</span>
             </div>
             <ul class="trip-list">
@@ -1252,6 +1117,7 @@
 
       requestAnimationFrame(() => {
         applyAutoScale();
+        applyCanvasScale();
       });
     }
 
@@ -1271,7 +1137,7 @@
       const canvasRect = canvas.getBoundingClientRect();
       const headerBottom = titleRect.bottom - canvasRect.top;
       const footerHeight = footer.offsetHeight;
-      const footerBottomOffset = 12; // bottom-3 (0.75rem = 12px)
+      const footerBottomOffset = 12;
       const gap = 16;
 
       const footerTop = canvasHeight - footerBottomOffset - footerHeight;
@@ -1282,7 +1148,6 @@
       if (naturalHeight > 0 && naturalHeight > (availableForWrapper - wrapperPaddingTop)) {
         const availableForCards = availableForWrapper - wrapperPaddingTop;
         const scale = availableForCards / naturalHeight;
-
         tripsContainer.style.transform = `scale(${scale})`;
         outerWrapper.style.maxHeight = availableForWrapper + 'px';
       }
@@ -1324,6 +1189,7 @@
       updatePreview();
     }
 
+    // Event listeners
     document.getElementById('bgUpload').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -1335,16 +1201,20 @@
     });
 
     document.getElementById('inputMonth').addEventListener('input', updatePreview);
-
     window.addEventListener('resize', () => {
-      requestAnimationFrame(applyAutoScale);
+      requestAnimationFrame(() => {
+        applyAutoScale();
+        applyCanvasScale();
+      });
     });
 
     function closeModal() {
       document.getElementById('modal').classList.remove('flex');
     }
 
+    // Init
     renderInputs();
+    applyCanvasScale();
   </script>
 </body>
 </html>
